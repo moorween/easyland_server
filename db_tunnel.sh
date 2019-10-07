@@ -1,4 +1,2 @@
 kill -9 `pgrep -f "ssh -L"`
-
-ssh  -L 23306:moorween@krucorp.ru:3306 -N \
- moorween@localhost
+ssh moorween@krucorp.ru -L 23306:127.0.0.1:3306 -N

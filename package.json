@@ -5,15 +5,36 @@
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "mysql": "^2.17.1",
+    "mysql2": "^1.7.0",
     "node-vk-bot-api": "^2.4.11",
-    "sequelize": "^5.19.3",
-    "sequelize-auto": "^0.4.29"
+    "nodemon": "^1.19.3",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.0",
+    "sequelize": "^5.19.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-typescript": "^7.6.0",
+    "sequelize-auto": "^0.4.29",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.6.3"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run prod",
+    "server": "babel-node ./src/bot.js",
+    "server:prod": "node ./dist/",
+    "dev": "NODE_ENV=development npm-run-all server",
+    "clean": "rimraf dist",
+    "build": "babel ./src --out-dir dist",
+    "prod": "NODE_ENV=production npm-run-all clean build server:prod",
+    "watch": "nodemon"
   },
   "author": "",
   "license": "ISC"
