@@ -3,13 +3,11 @@ import bodyParser from 'body-parser';
 import VkBot from 'node-vk-bot-api';
 import Markup from 'node-vk-bot-api/lib/markup';
 import config from './config';
+import {db} from './lib/db';
 
-import {sequelize, db} from './lib/db';
-
-const botApp = express();
+const app = express();
 const bot = new VkBot(config.vk)
 
-const dialogSteps = {};
 let dialogFlow = {};
 
 const processEvent = async(ctx) => {
@@ -88,6 +86,6 @@ const processEvent = async(ctx) => {
 bot.event('group_join', processEvent)
 bot.on(processEvent);
 
-botApp.use(bodyParser.json())
-botApp.post('/', bot.webhookCallback)
-botApp.listen(4300)
+app.use(bodyParser.json())
+app.post('/', bot.webhookCallback)
+app.listen(4300)
