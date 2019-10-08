@@ -6,13 +6,15 @@ const auth = express.Router();
 
 auth.post('/sign-in', async (req, res) => {
     const hash = bcrypt.hashSync(req.body.password);
-    console.log(req.body.login, hash);
     const user = await db.users.findOne({
         where: {
-            login: req.body.login,
-            password: hash
+            login: req.body.login
         }
     });
+
+    if (!user || !user.validPassword(hash)) {
+        res.abort(401);
+    }
 
     console.log(user);
 
