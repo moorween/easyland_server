@@ -43,6 +43,12 @@ router.put('/:id', async (req, res) => {
             res.status(404).json({error: 'user not found'});
             return false;
         }
+        if (user.id !== req.user.id) {
+            res.status(401).json({error: 'user owner is wrong'});
+            return false;
+        }
+
+
         await user.update(req.body);
 
         user = user.get({plain: true});
