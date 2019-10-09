@@ -1,32 +1,27 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('projects', {
+	return sequelize.define('clients', {
 		id: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true
 		},
-		clientId: {
-			type: DataTypes.INTEGER(11),
-			allowNull: false,
-			validate: {notNull: true}
-		},
-		title: {
+		name: {
 			type: DataTypes.CHAR(128),
 			allowNull: false,
 			validate: { notNull: true, notEmpty: true }
 		},
-		members: {
+		email: {
 			type: DataTypes.TEXT,
 			allowNull: false,
-			validate: { notNull: true, notEmpty: true }
+			validate: { isEmail: true }
 		},
 		status: {
 			type: DataTypes.CHAR(128),
 			allowNull: true,
-			defaultValue: 'created'
+			defaultValue: 'new'
 		},
 		createdAt: {
 			type: DataTypes.DATE,
@@ -45,12 +40,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true
 		}
 	}, {
-		tableName: 'projects',
-		timestamps: true,
-		scopes: {
-			noClientId: {
-				attributes: { exclude: ['clientId'] },
-			}
-		}
+		tableName: 'clients',
+		timestamps: true
 	});
 };

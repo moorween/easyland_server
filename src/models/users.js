@@ -17,13 +17,23 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.CHAR(128),
 			allowNull: true
 		},
+		login: {
+			type: DataTypes.CHAR(128),
+			allowNull: false,
+			validate: {notNull: true, notEmpty: true}
+		},
 		password: {
 			type: DataTypes.CHAR(255),
-			allowNull: true
+			allowNull: false,
+			validate: {notNull: true, notEmpty: true},
+			set(password) {
+				this.setDataValue('password', bcrypt.hashSync(password, 10));
+			}
 		},
 		email: {
 			type: DataTypes.CHAR(255),
-			allowNull: true
+			allowNull: true,
+			validate: {isEmail: true}
 		},
 		role: {
 			type: DataTypes.CHAR(128),
@@ -32,11 +42,11 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		tableName: 'users',
 		timestamps: false,
-		hooks: {
-			beforeCreate: (user) => {
-				user.password = bcrypt.hashSync(user.password, 10);
+		scopes: {
+			noPassword: {
+				attributes: { exclude: ['password'] },
 			}
-		},
+		}
 	});
 
 	users.prototype.validPassword = function (password) {

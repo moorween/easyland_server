@@ -24,4 +24,39 @@ router.post('/sign-in', async (req, res) => {
     res.send({user, token});
 });
 
+router.post('/sign-up', async (req, res) => {
+    try {
+        let user = await db.users.create(req.body);
+        user = user.get({plain: true});
+        delete user.password;
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({error: err});
+    }
+});
+
+router.put('/:id', async (req, res) => {
+    try {
+        let user = await db.users.findByPk(req.params.id);
+
+        if (!user) {
+            res.status(404).json({error: 'user not found'});
+            return false;
+        }
+        await user.update(req.body);
+
+        user = user.get({plain: true});
+        delete user.password;
+
+        res.json({status: true, user});
+    } catch (err) {
+        res.status(500).json({error: err});
+    }
+});
+
+router.get('/list', async (req, res) => {
+    const users = await db.users.scope('noPassword').findAll();
+    res.json(users);
+})
+
 export default router;
