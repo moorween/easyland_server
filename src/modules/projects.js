@@ -2,9 +2,9 @@ import {jwtSecret} from '../config';
 import express from 'express';
 import {db} from '../lib/db';
 import jwt from 'jsonwebtoken';
-const router = express.Router();
+const auth = express.Router();
 
-router.post('/sign-in', async (req, res) => {
+auth.post('/sign-in', async (req, res) => {
     let user = await db.users.findOne({
         where: {
             login: req.body.login
@@ -24,4 +24,4 @@ router.post('/sign-in', async (req, res) => {
     res.send({user, token});
 });
 
-export default router;
+export default auth;

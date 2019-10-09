@@ -1,5 +1,5 @@
 /* jshint indent: 1 */
-import bcrypt from 'bcryptjs';
+const bcrypt = require('bcryptjs');
 
 module.exports = function(sequelize, DataTypes) {
 	const users = sequelize.define('users', {
