@@ -2,17 +2,20 @@ import {jwtSecret} from '../config';
 import express from 'express';
 import {db} from '../lib/db';
 import jwt from 'jsonwebtoken';
+
 const router = express.Router();
 
 router.post('/sign-in', async (req, res) => {
-    let user = await db.users.findOne({
-        where: {
-            login: req.body.login
-        }
-    });
+    let user = await db.users
+        .scope(null)
+        .findOne({
+            where: {
+                login: req.body.login
+            }
+        });
 
     if (!user || !user.validPassword(req.body.password)) {
-        res.status(401).json({ error: 'wrong password' })
+        res.status(401).json({error: 'wrong password'})
         return;
     }
 
@@ -37,7 +40,7 @@ router.post('/sign-up', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        let user = await db.users.findByPk(req.params.id);
+        const user = await db.users.findByPk(req.params.id);
 
         if (!user) {
             res.status(404).json({error: 'user not found'});
@@ -48,11 +51,7 @@ router.put('/:id', async (req, res) => {
             return false;
         }
 
-
         await user.update(req.body);
-
-        user = user.get({plain: true});
-        delete user.password;
 
         res.json({status: true, user});
     } catch (err) {
@@ -61,7 +60,7 @@ router.put('/:id', async (req, res) => {
 });
 
 router.get('/list', async (req, res) => {
-    const users = await db.users.scope('noPassword').findAll();
+    const users = await db.users.findAll();
     res.json(users);
 })
 

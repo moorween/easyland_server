@@ -1,5 +1,7 @@
 /* jshint indent: 1 */
 
+import {Op} from "sequelize";
+
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('clients', {
 		id: {
@@ -41,6 +43,20 @@ module.exports = function(sequelize, DataTypes) {
 		}
 	}, {
 		tableName: 'clients',
-		timestamps: true
+		timestamps: true,
+        scopes: {
+            active: {
+                where: {
+                    deletedAt: null
+                }
+            },
+            deleted: {
+                where: {
+                    deletedAt: {
+                        [Op.ne]: null
+                    }
+                }
+            }
+        }
 	});
 };

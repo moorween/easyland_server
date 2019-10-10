@@ -1,5 +1,7 @@
 /* jshint indent: 1 */
 
+import {Op} from "sequelize";
+
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('projects', {
 		id: {
@@ -15,11 +17,6 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		title: {
 			type: DataTypes.CHAR(128),
-			allowNull: false,
-			validate: { notNull: true, notEmpty: true }
-		},
-		members: {
-			type: DataTypes.TEXT,
 			allowNull: false,
 			validate: { notNull: true, notEmpty: true }
 		},
@@ -48,8 +45,33 @@ module.exports = function(sequelize, DataTypes) {
 		tableName: 'projects',
 		timestamps: true,
 		scopes: {
-			noClientId: {
-				attributes: { exclude: ['clientId'] },
+            active: {
+                where: {
+                    deletedAt: null
+                }
+            },
+            deleted: {
+                where: {
+                    deletedAt: {
+                        [Op.ne]: null
+                    }
+                }
+            },
+			withMembers: {
+                include: [{
+                    association: 'members',
+                    as: 'items',
+                    attributes: {exclude: ['password']},
+                    through: {
+                    	as: 'memberDetails',
+						where: {deletedAt: null},
+                        attributes: {exclude: ['id', 'userId', 'projectId']}
+                    }
+                }]
+    		},
+			withClient: {
+                attributes: { exclude: ['clientId'] },
+                include: ['client']
 			}
 		}
 	});

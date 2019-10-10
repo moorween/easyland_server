@@ -1,26 +1,21 @@
 import express from 'express';
 import {sequelize, db} from '../lib/db';
 import {Op} from "sequelize";
+
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const projects = await db.clients.findAll({
-        where: {
-            deletedAt: null
-        }
-    });
+    const projects = await db.clients
+        .scope('active')
+        .findAll();
 
     res.send(projects);
 });
 
 router.get('/trash', async (req, res) => {
-    const projects = await db.clients.findAll({
-        where: {
-            deletedAt: {
-                [Op.ne]: null
-            }
-        }
-    });
+    const projects = await db.clients
+        .scope('deleted')
+        .findAll();
 
     res.send(projects);
 });

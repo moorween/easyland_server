@@ -1,38 +1,32 @@
 import express from 'express';
 import {sequelize, db} from '../lib/db';
-import {Op} from "sequelize";
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
     const projects = await db.projects
-        .scope('noClientId')
-        .findAll({
-            where: {
-                deletedAt: null
-            },
-            include: ['client']
-        });
+        .scope(['active', 'withClient', 'withMembers'])
+        .findAll();
 
     res.send(projects);
 });
 
 router.get('/trash', async (req, res) => {
-    const projects = await db.projects.findAll({
-        where: {
-            deletedAt: {
-                [Op.ne]: null
-            }
-        }
-    });
+    const projects = await db.projects
+        .scope('deleted')
+        .findAll();
 
-    res.send(projects.get({plain: true}));
+    res.send(projects);
 });
 
 router.post('/', async (req, res) => {
     try {
-        const project = await db.projects.create(req.body);
-        res.json(project.get({plain: true}));
+        const project = await db.projects
+            // .scope(['withClient', 'withMembers'])
+            .create(req.body);
+        const result = {...project.get({plain: true}), client: await project.getClient()};
+
+        res.json(result);
     } catch (err) {
         res.status(500).json({error: err});
     }
@@ -55,6 +49,7 @@ router.put('/:id', async (req, res) => {
 
         const result = {...project.get({plain: true}), client: await project.getClient()};
         delete result.clientId;
+
         res.json({status: true, project: result});
     } catch (err) {
         console.log(err);
