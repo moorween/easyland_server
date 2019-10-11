@@ -3,7 +3,7 @@
 import {Op} from "sequelize";
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('projects', {
+	const projects = sequelize.define('projects', {
 		id: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
@@ -73,6 +73,38 @@ module.exports = function(sequelize, DataTypes) {
                 attributes: { exclude: ['clientId'] },
                 include: ['client']
 			}
-		}
+		},
+
 	});
+
+    projects.prototype.assignMembers = async function (members) {
+        for (const member of members) {
+
+        	const user = await sequelize.models.users.findByPk(member.id);
+            if (!user) return false;
+
+        	switch (member.action) {
+				case 'assign':
+					this.addMember(user, {through: {role: (member.memberDetails || {}).role}});
+					break;
+				case 'delete':
+					const projectMember = await sequelize.models.projects_members.findOne({
+						where: {
+							projectId: this.id,
+							userId: user.id
+						}
+					});
+
+					if (!projectMember) return false;
+
+					projectMember.update({
+                        deletedAt: sequelize.fn('NOW')
+                    });
+
+					break;
+			}
+		}
+    }
+
+	return projects;
 };
