@@ -1,6 +1,6 @@
 /* jshint indent: 1 */
 
-import {Op} from "sequelize";
+const Op = require('sequelize').Op;
 
 module.exports = function(sequelize, DataTypes) {
 	const projects = sequelize.define('projects', {
@@ -18,7 +18,8 @@ module.exports = function(sequelize, DataTypes) {
 		title: {
 			type: DataTypes.CHAR(128),
 			allowNull: false,
-			validate: { notNull: true, notEmpty: true }
+			validate: { notNull: true, notEmpty: true },
+			unique: true
 		},
 		status: {
 			type: DataTypes.CHAR(128),

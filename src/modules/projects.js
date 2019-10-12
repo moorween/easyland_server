@@ -35,20 +35,34 @@ router.get('/trash', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const project = await db.projects
-        // .scope(['withClient', 'withMembers'])
             .create(req.body);
 
-        const result = {...project.get({plain: true}), client: await project.getClient()};
+        try {
+            await project.assignMembers(JSON.parse(req.body.members || '[]'));
+        } catch (err) {
+            await project.destroy();
+            throw err;
+        }
 
+        const result = {
+            ...project.get({plain: true}),
+            client: await project.getClient(),
+            members: await project.getMembers()
+        };
+
+        delete result.clientId;
         res.json(result);
     } catch (err) {
+        console.log(err);
         res.status(500).json({error: err});
     }
 });
 
 router.put('/:id', async (req, res) => {
     try {
-        const project = await db.projects.findByPk(req.params.id);
+        const project = await db.projects
+            .scope(['withClient', 'withMembers'])
+            .findByPk(req.params.id);
 
         if (!project) {
             res.status(404).json({error: 'project not found'});
@@ -60,12 +74,17 @@ router.put('/:id', async (req, res) => {
         }
 
         await project.update(req.body);
-        await project.assignMembers(JSON.parse(req.body.members));
+        await project.assignMembers(JSON.parse(req.body.members || '[]'));
 
-        const result = {...project.get({plain: true}), client: await project.getClient(), members: await project.getMembers()};
-        delete result.clientId;
+        // const result = {
+        //     ...project.get({plain: true}),
+        //     client: await project.getClient(),
+        //     members: await project.getMembers()
+        // };
+        //
+        // delete result.clientId;
 
-        res.json({status: true, project: result});
+        res.json({status: true, project});
     } catch (err) {
         console.log(err);
         res.status(500).json({error: err});
