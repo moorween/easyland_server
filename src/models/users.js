@@ -38,10 +38,26 @@ module.exports = function(sequelize, DataTypes) {
 		role: {
 			type: DataTypes.CHAR(128),
 			allowNull: true
-		}
+		},
+        createdAt: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        deletedAt: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        deletedBy: {
+            type: DataTypes.INTEGER(11),
+            allowNull: true
+        }
 	}, {
 		tableName: 'users',
-		timestamps: false,
+		timestamps: true,
 		defaultScope: {
             attributes: { exclude: ['password'] },
 		},

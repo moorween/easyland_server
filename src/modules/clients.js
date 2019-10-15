@@ -74,15 +74,15 @@ router.delete('/:id', async (req, res) => {
 })
 
 router.put('/restore/:id', async (req, res) => {
-    const project = await db.clients
+    const client = await db.clients
         .scope('deleted')
         .findByPk(req.params.id);
 
-    if (!project) {
+    if (!client) {
         res.status(404).json({error: 'client not found'});
         return false;
     }
-    await project.update({deletedAt: null})
+    await client.update({deletedAt: null})
 
     res.json({status: true});
 })

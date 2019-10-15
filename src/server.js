@@ -6,6 +6,7 @@ import auth from './modules/auth';
 import projects from './modules/projects';
 import clients from './modules/clients';
 import botFlow from './modules/botFlow';
+import references from './modules/references';
 
 const app = express();
 const router = express.Router();
@@ -23,6 +24,7 @@ router.use('/auth', auth);
 router.use('/projects', projects);
 router.use('/clients', clients);
 router.use('/bot-flow', botFlow);
+router.use('/references', references);
 
 app.use(cors());
 app.use(express.json());
