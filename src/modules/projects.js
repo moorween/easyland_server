@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
 
         const result = {...project.get({plain: true}), client: await project.getClient()};
 
-        res.json(result);
+        res.json({status: true, project: result});
     } catch (err) {
         res.status(500).json({error: err});
     }

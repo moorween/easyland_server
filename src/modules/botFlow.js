@@ -4,37 +4,15 @@ import {sequelize, db} from '../lib/db';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const projects = await db.clients
-        .scope('active')
+    const flow = await db.vk_bot_questions
         .findAll();
-
-    res.send(projects);
-});
-
-router.get('/:id', async (req, res) => {
-    const client = await db.clients
-        .findByPk(req.params.id);
-
-    if (!client) {
-        res.status(404).json({error: 'client not found'});
-        return false;
-    }
-
-    res.send(client);
-});
-
-router.get('/trash', async (req, res) => {
-    const clients = await db.clients
-        .scope('deleted')
-        .findAll();
-
-    res.send(clients);
+    res.send(flow);
 });
 
 router.post('/', async (req, res) => {
     try {
-        const client = await db.clients.create(req.body);
-        res.json({status: true, client});
+        const flow = await db.vk_bot_questions.create(req.body);
+        res.json(flow);
     } catch (err) {
         res.status(500).json({error: err});
     }

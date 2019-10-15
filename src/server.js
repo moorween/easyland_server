@@ -5,6 +5,7 @@ import {jwtSecret} from './config'
 import auth from './modules/auth';
 import projects from './modules/projects';
 import clients from './modules/clients';
+import botFlow from './modules/botFlow';
 
 const app = express();
 const router = express.Router();
@@ -21,6 +22,7 @@ router.use(jwt({secret: jwtSecret}).unless(jwtUnprotected));
 router.use('/auth', auth);
 router.use('/projects', projects);
 router.use('/clients', clients);
+router.use('/bot-flow', botFlow);
 
 app.use(cors());
 app.use(express.json());
