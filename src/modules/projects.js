@@ -35,7 +35,6 @@ router.get('/trash', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const project = await db.projects
-        // .scope(['withClient', 'withMembers'])
             .create(req.body);
 
         const result = {...project.get({plain: true}), client: await project.getClient()};

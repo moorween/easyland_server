@@ -50,7 +50,8 @@ module.exports = function(sequelize, DataTypes) {
             active: {
                 where: {
                     deletedAt: null
-                }
+                },
+                attributes: {exclude: ['deletedAt', 'deletedBy']}
             },
             deleted: {
                 where: {

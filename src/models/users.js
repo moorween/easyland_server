@@ -1,5 +1,6 @@
 /* jshint indent: 1 */
 const bcrypt = require('bcryptjs');
+const Op = require('sequelize').Op;
 
 module.exports = function(sequelize, DataTypes) {
 	const users = sequelize.define('users', {
@@ -59,12 +60,35 @@ module.exports = function(sequelize, DataTypes) {
 		tableName: 'users',
 		timestamps: true,
 		defaultScope: {
-            attributes: { exclude: ['password'] },
+            attributes: { exclude: ['password', 'login', 'createdAt', 'updatedAt', 'deletedAt', 'deletedBy'] },
 		},
 		scopes: {
+            active: {
+                attributes: {exclude: ['deletedAt', 'deletedBy']},
+                where: {
+                    deletedAt: null
+                }
+            },
+            deleted: {
+                where: {
+                    deletedAt: {
+                        [Op.ne]: null
+                    }
+                }
+            },
 			noPassword: {
-				attributes: { exclude: ['password'] },
-			}
+				attributes: { exclude: ['password', 'login'] },
+			},
+            withProjects: {
+                attributes: { exclude: ['password'] },
+                include: [{
+                    association: 'activeProjects',
+                    through: {
+                        as: 'memberDetails',
+                        attributes: {exclude: ['id', 'userId', 'projectId', 'updatedAt', 'deletedAt', 'deletedBy']}
+                    }
+                }]
+            }
 		}
 	});
 

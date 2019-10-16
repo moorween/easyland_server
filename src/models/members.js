@@ -39,12 +39,6 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		tableName: 'projects_members',
 		timestamps: true,
-        defaultScope: {
-		    where: {
-		        deletedAt: null
-            },
-            attributes: {exclude: ['id', 'userId', 'projectId']}
-        },
         indexes: [
             {
                 unique: true,

@@ -47,6 +47,7 @@ module.exports = function(sequelize, DataTypes) {
 		timestamps: true,
 		scopes: {
             active: {
+                attributes: {exclude: ['deletedAt', 'deletedBy']},
                 where: {
                     deletedAt: null
                 }
@@ -61,18 +62,18 @@ module.exports = function(sequelize, DataTypes) {
 			withMembers: {
                 include: [{
                     association: 'members',
-                    as: 'items',
-                    attributes: {exclude: ['password']},
                     through: {
                     	as: 'memberDetails',
-						where: {deletedAt: null},
-                        attributes: {exclude: ['id', 'userId', 'projectId']}
+                        attributes: {exclude: ['id', 'userId', 'projectId', 'updatedAt', 'deletedAt', 'deletedBy']}
                     }
                 }]
     		},
 			withClient: {
                 attributes: { exclude: ['clientId'] },
-                include: ['client']
+                include: [{
+                	association: 'client',
+					attributes: {exclude: ['deletedAt', 'deletedBy']}
+                }]
 			}
 		},
 
@@ -98,9 +99,7 @@ module.exports = function(sequelize, DataTypes) {
 
 					if (!projectMember) return false;
 
-					projectMember.update({
-                        deletedAt: sequelize.fn('NOW')
-                    });
+					projectMember.destroy();
 
 					break;
 			}
