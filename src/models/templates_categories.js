@@ -1,19 +1,24 @@
 /* jshint indent: 1 */
 
-const Op = require('sequelize').Op;
-
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('categories', {
+    return sequelize.define('templates_categories', {
         id: {
             type: DataTypes.INTEGER(11),
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
-        title: {
-            type: DataTypes.CHAR(128),
+        categoryId: {
+            type: DataTypes.INTEGER(11),
             allowNull: false,
-            validate: { notNull: true, notEmpty: true },
+        },
+        templateId: {
+            type: DataTypes.INTEGER(11),
+            allowNull: false,
+        },
+        comment: {
+            type: DataTypes.TEXT(),
+            allowNull: true
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -32,25 +37,13 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: true
         }
     }, {
-        tableName: 'categories',
+        tableName: 'templates_categories',
         timestamps: true,
-        defaultScope: {
-
-        },
-        scopes: {
-            active: {
-                where: {
-                    deletedAt: null
-                },
-                attributes: {exclude: ['deletedAt', 'deletedBy']}
-            },
-            deleted: {
-                where: {
-                    deletedAt: {
-                        [Op.ne]: null
-                    }
-                }
+        indexes: [
+            {
+                unique: true,
+                fields: ['categoryId', 'templateId']
             }
-        }
+        ]
     });
 };

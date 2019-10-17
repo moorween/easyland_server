@@ -1,9 +1,11 @@
 import express from 'express';
 import categories from './categories';
+import templates from './templates';
 const router = express.Router();
 
 const references = {
-    'categories': 'Categories'
+    'categories': 'Categories',
+    'templates': 'Templates'
 }
 
 router.get('/', async (req, res) => {
@@ -11,6 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 router.use('/categories', categories);
+router.use('/templates', templates);
 
 export default router;
 export {references};

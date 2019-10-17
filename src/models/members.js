@@ -27,14 +27,6 @@ module.exports = function(sequelize, DataTypes) {
         updatedAt: {
             type: DataTypes.DATE,
             allowNull: true
-        },
-        deletedAt: {
-            type: DataTypes.DATE,
-            allowNull: true
-        },
-        deletedBy: {
-            type: DataTypes.INTEGER(11),
-            allowNull: true
         }
 	}, {
 		tableName: 'projects_members',

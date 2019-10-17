@@ -5,23 +5,10 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     const projects = await db.projects
-        .scope(['active', 'withClient', 'withMembers'])
+        .scope(['active', 'defaultScope'])
         .findAll();
 
     res.send(projects);
-});
-
-router.get('/:id', async (req, res) => {
-    const project = await db.projects
-        .scope(['withClient', 'withMembers'])
-        .findByPk(req.params.id);
-
-    if (!project) {
-        res.status(404).json({error: 'project not found'});
-        return false;
-    }
-
-    res.send(project);
 });
 
 router.get('/trash', async (req, res) => {
@@ -32,14 +19,26 @@ router.get('/trash', async (req, res) => {
     res.send(projects);
 });
 
+router.get('/:id', async (req, res) => {
+    const project = await db.projects
+        .findByPk(req.params.id);
+
+    if (!project) {
+        res.status(404).json({error: 'project not found'});
+        return false;
+    }
+
+    res.send(project);
+});
+
 router.post('/', async (req, res) => {
     try {
         const project = await db.projects
             .create(req.body);
 
-        const result = {...project.get({plain: true}), client: await project.getClient()};
+        await project.assignMembers(JSON.parse(req.body.members));
 
-        res.json({status: true, project: result});
+        res.json({status: true, project: await db.projects.findByPk(project.id)});
     } catch (err) {
         res.status(500).json({error: err});
     }
@@ -47,7 +46,9 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        const project = await db.projects.findByPk(req.params.id);
+        const project = await db.projects
+            .scope(['defaultScope'])
+            .findByPk(req.params.id);
 
         if (!project) {
             res.status(404).json({error: 'project not found'});
@@ -61,10 +62,7 @@ router.put('/:id', async (req, res) => {
         await project.update(req.body);
         await project.assignMembers(JSON.parse(req.body.members));
 
-        const result = {...project.get({plain: true}), client: await project.getClient(), members: await project.getMembers()};
-        delete result.clientId;
-
-        res.json({status: true, project: result});
+        res.json({status: true, project: await project.reload()});
     } catch (err) {
         console.log(err);
         res.status(500).json({error: err});
@@ -77,9 +75,21 @@ router.delete('/:id', async (req, res) => {
     if (!project) {
         res.status(404).json({error: 'project not found'});
     }
-    await project.update({deletedAt: sequelize.fn('NOW'), deletedBy: req.user.id})
 
-    res.json({status: true});
+    try {
+        await project.update({deletedAt: sequelize.fn('NOW'), deletedBy: req.user.id})
+
+        await db.projects_members.destroy({
+            where: {
+                projectId: project.id
+            }
+        });
+
+        res.json({status: true});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: err});
+    }
 })
 
 router.put('/restore/:id', async (req, res) => {

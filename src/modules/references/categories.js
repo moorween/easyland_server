@@ -28,6 +28,16 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+    try {
+        const category = await db.categories.findByPk(req.params.id);
+        console.log(await category.getCategoryTemplates());
+        res.json({status: true, category: await category.getCategoryTemplates()});
+    } catch (err) {
+    console.error(err);
+    }
+});
+
 router.put('/:id', async (req, res) => {
     try {
         const category = await db.categories.findByPk(req.params.id);
@@ -56,9 +66,19 @@ router.delete('/:id', async (req, res) => {
     if (!category) {
         res.status(404).json({error: 'category not found'});
     }
-    await category.update({deletedAt: sequelize.fn('NOW'), deletedBy: req.user.id})
+    try {
+        await category.update({deletedAt: sequelize.fn('NOW'), deletedBy: req.user.id})
 
-    res.json({status: true});
+        await db.templates_categories.destroy({
+            where: {
+                categoryId: category.id
+            }
+        });
+
+        res.json({status: true});
+    } catch (err) {
+        console.error(err);
+    }
 })
 
 router.put('/restore/:id', async (req, res) => {

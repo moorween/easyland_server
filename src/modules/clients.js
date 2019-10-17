@@ -11,6 +11,14 @@ router.get('/', async (req, res) => {
     res.send(projects);
 });
 
+router.get('/trash', async (req, res) => {
+    const clients = await db.clients
+        .scope('deleted')
+        .findAll();
+
+    res.send(clients);
+});
+
 router.get('/:id', async (req, res) => {
     const client = await db.clients
         .findByPk(req.params.id);
@@ -21,14 +29,6 @@ router.get('/:id', async (req, res) => {
     }
 
     res.send(client);
-});
-
-router.get('/trash', async (req, res) => {
-    const clients = await db.clients
-        .scope('deleted')
-        .findAll();
-
-    res.send(clients);
 });
 
 router.post('/', async (req, res) => {
@@ -68,8 +68,8 @@ router.delete('/:id', async (req, res) => {
     if (!client) {
         res.status(404).json({error: 'client not found'});
     }
-    await client.update({deletedAt: sequelize.fn('NOW'), deletedBy: req.user.id})
 
+    await client.update({deletedAt: sequelize.fn('NOW'), deletedBy: req.user.id})
     res.json({status: true});
 })
 

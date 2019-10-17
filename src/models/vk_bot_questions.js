@@ -89,7 +89,6 @@ module.exports = function (sequelize, DataTypes) {
         timestamps: true,
         hooks: {
             beforeSave: async (q, options) => {
-
                 const qWithSameStep = await sequelize.models.vk_bot_questions.findOne({
                     where: {
                         step: q.step,

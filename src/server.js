@@ -1,6 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import jwt from 'express-jwt';
+import bodyParser from 'body-parser';
+import formData from 'express-form-data';
+import os from 'os';
+
 import {jwtSecret} from './config'
 import auth from './modules/auth';
 import projects from './modules/projects';
@@ -28,8 +32,12 @@ router.use('/references', references);
 
 app.use(cors());
 app.use(express.json());
-app.use(express.json());
-app.use(express.urlencoded());
+app.use(bodyParser.urlencoded());
+app.use(formData.parse({
+    uploadDir: os.tmpdir(),
+    autoClean: true
+}));
+
 app.use('/api/v1', router);
 
 app.use((err, req, res, next) => {
