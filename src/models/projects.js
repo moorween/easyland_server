@@ -85,8 +85,9 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     projects.prototype.assignMembers = async function (members) {
-        for (const member of members) {
+        members = typeof members === 'string' ? JSON.parse(members) : members;
 
+        for (const member of members) {
             const user = await sequelize.models.users.findByPk(member.id);
             if (!user) return false;
 

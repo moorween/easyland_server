@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
         }
 
         const template = await db.templates.create(req.body);
-        await template.assignCategories(JSON.parse(req.body.categories));
+        await template.assignCategories(req.body.categories);
 
         res.json({status: true, template: await db.templates.findByPk(template.id)});
     } catch (err) {
@@ -76,7 +76,7 @@ router.put('/:id', async (req, res) => {
         }
 
         await template.update(req.body);
-        await template.assignCategories(JSON.parse(req.body.categories));
+        await template.assignCategories(req.body.categories);
 
         res.json({status: true, template: template.reload()});
     } catch (err) {

@@ -87,7 +87,7 @@ module.exports = function(sequelize, DataTypes) {
     });
 
     templates.prototype.assignCategories = async function (categories) {
-        console.log(categories);
+        categories = typeof categories === 'string' ? JSON.parse(categories) : categories;
 
         for (const category of categories) {
 

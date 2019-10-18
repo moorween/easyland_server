@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
         const project = await db.projects
             .create(req.body);
 
-        await project.assignMembers(JSON.parse(req.body.members));
+        await project.assignMembers(req.body.members);
 
         res.json({status: true, project: await db.projects.findByPk(project.id)});
     } catch (err) {
@@ -60,7 +60,7 @@ router.put('/:id', async (req, res) => {
         }
 
         await project.update(req.body);
-        await project.assignMembers(JSON.parse(req.body.members));
+        await project.assignMembers(req.body.members);
 
         res.json({status: true, project: await project.reload()});
     } catch (err) {
@@ -78,8 +78,7 @@ router.delete('/:id', async (req, res) => {
 
     try {
         await project.update({deletedAt: sequelize.fn('NOW'), deletedBy: req.user.id})
-
-        await db.projects_members.destroy({
+        await db.members.destroy({
             where: {
                 projectId: project.id
             }

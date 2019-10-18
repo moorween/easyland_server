@@ -45,7 +45,8 @@ module.exports = function (sequelize, DataTypes) {
                 return JSON.parse(this.getDataValue('variants') || '[]')
             },
             set(value) {
-                this.setDataValue('variants', JSON.stringify(value))
+                const variants = typeof value === 'object' ? JSON.stringify(value) : value;
+                this.setDataValue('variants', variants);
             }
         },
         reference: {
@@ -87,6 +88,21 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         tableName: 'vk_bot_questions',
         timestamps: true,
+        scopes: {
+            active: {
+                where: {
+                    deletedAt: null
+                },
+                attributes: {exclude: ['deletedAt', 'deletedBy']}
+            },
+            deleted: {
+                where: {
+                    deletedAt: {
+                        [Op.ne]: null
+                    }
+                }
+            }
+        },
         hooks: {
             beforeSave: async (q, options) => {
                 const qWithSameStep = await sequelize.models.vk_bot_questions.findOne({
