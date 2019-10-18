@@ -39,11 +39,11 @@ app.use(formData.parse({
 }));
 
 app.use('/api/v1', router);
-
+app.use('/static/screenshots', express.static('templates/screenshots'));
 app.use((err, req, res, next) => {
     if (err.name === 'UnauthorizedError') {
         res.status(401).json({ error: 'invalid token' })
     }
 });
 
-app.listen(8080);
+app.listen(8085);

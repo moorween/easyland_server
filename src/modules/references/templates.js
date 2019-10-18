@@ -4,6 +4,7 @@ import fs from 'fs';
 import extract from 'extract-zip';
 import templateWalkSync from '../../lib/walkSync';
 import path from 'path';
+import {getScreenshot} from "../../lib/templateProcessor";
 
 const router = express.Router();
 
@@ -25,34 +26,39 @@ router.get('/trash', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        for (const file of Object.values(req.files)) {
+        const file = Object.values(req.files)[0];
+        const dirName = path.parse(file.name).name;
+        const templateDir = `${process.env.PWD}/templates/${dirName}`;
+        fs.copyFileSync(file.path, `templates/${file.name}`);
 
-            const dirName = path.parse(file.name).name;
-            const templateDir = `${process.env.PWD}/templates/${dirName}`;
-            fs.renameSync(file.path, `templates/${file.name}`);
-
-            await new Promise((resolve, reject) => {
-                extract(`templates/${file.name}`, {dir: templateDir}, function (err) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve();
-                    }
-                })
+        await new Promise((resolve, reject) => {
+            extract(`templates/${file.name}`, {dir: templateDir}, function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
             })
+        })
 
-            const walkResult = templateWalkSync(templateDir);
-            const fileList = walkResult.fileList;
+        const walkResult = templateWalkSync(templateDir);
+        const fileList = walkResult.fileList;
 
-            if (!fileList.length) throw 'no template files found';
+        if (!fileList.length) throw 'no template files found';
 
-            req.body.files = fileList;
-            req.body.indexFile = walkResult.indexFile;
-            req.body.templatePath = `${dirName}/${walkResult.correctionPath}`;
-        }
+        req.body.files = fileList;
+        req.body.indexFile = walkResult.indexFile;
+        req.body.templatePath = `${dirName}/${walkResult.correctionPath}`;
 
         const template = await db.templates.create(req.body);
         await template.assignCategories(req.body.categories);
+
+        getScreenshot(dirName, `${walkResult.correctionPath}/${walkResult.indexFile}`).then(res => {
+            template.update({
+                screenshot: res
+            });
+        }).catch(() => {
+        });
 
         res.json({status: true, template: await db.templates.findByPk(template.id)});
     } catch (err) {

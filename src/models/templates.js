@@ -16,6 +16,10 @@ module.exports = function(sequelize, DataTypes) {
             validate: { notNull: true, notEmpty: true },
             unique: true
         },
+        screenshot: {
+            type: DataTypes.CHAR(128),
+            allowNull: true
+        },
         templatePath: {
             type: DataTypes.CHAR(128),
             allowNull: false,
@@ -24,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
         indexFile: {
             type: DataTypes.CHAR(128),
             allowNull: false,
-            unique: true
+            unique: false
         },
         files: {
             type: DataTypes.TEXT('long'),
@@ -89,7 +93,7 @@ module.exports = function(sequelize, DataTypes) {
     templates.prototype.assignCategories = async function (categories) {
         categories = typeof categories === 'string' ? JSON.parse(categories) : categories;
 
-        for (const category of categories) {
+        for (const category of categories || []) {
 
             const cat = await sequelize.models.categories.findByPk(category.id);
             if (!cat) return false;
