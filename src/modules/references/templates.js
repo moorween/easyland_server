@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     const templates = await db.templates
-        .scope(['active', 'defaultScope'])
+        .scope(['active', 'defaultScope', 'noFiles'])
         .findAll();
 
     res.send(templates);
@@ -22,6 +22,13 @@ router.get('/trash', async (req, res) => {
         .findAll();
 
     res.send(templates);
+});
+
+router.get('/:id', async (req, res) => {
+    const template = await db.templates
+        .findByPk(req.params.id);
+
+    res.send(template);
 });
 
 router.post('/', async (req, res) => {

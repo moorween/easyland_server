@@ -86,6 +86,9 @@ module.exports = function(sequelize, DataTypes) {
                         [Op.ne]: null
                     }
                 }
+            },
+            noFiles: {
+                attributes: {exclude: ['files', 'templatePath', 'indexFile']}
             }
         }
     });
