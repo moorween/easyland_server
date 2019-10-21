@@ -59,8 +59,8 @@ router.put('/:id', async (req, res) => {
             return false;
         }
 
-        await project.update(req.body);
         await project.assignMembers(req.body.members);
+        await project.update(req.body);
 
         res.json({status: true, project: await project.reload()});
     } catch (err) {

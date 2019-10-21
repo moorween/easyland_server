@@ -13,8 +13,7 @@ module.exports = function(sequelize, DataTypes) {
         name: {
             type: DataTypes.CHAR(128),
             allowNull: false,
-            validate: { notNull: true, notEmpty: true },
-            unique: true
+            validate: { notNull: true, notEmpty: true }
         },
         screenshot: {
             type: DataTypes.CHAR(128),
@@ -22,13 +21,11 @@ module.exports = function(sequelize, DataTypes) {
         },
         templatePath: {
             type: DataTypes.CHAR(128),
-            allowNull: false,
-            unique: true
+            allowNull: false
         },
         indexFile: {
             type: DataTypes.CHAR(128),
-            allowNull: false,
-            unique: false
+            allowNull: false
         },
         files: {
             type: DataTypes.TEXT('long'),
@@ -64,6 +61,12 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         tableName: 'templates',
         timestamps: true,
+        indexes: [
+            {
+                unique: true,
+                fields: ['name', 'deletedAt']
+            }
+        ],
         defaultScope: {
             include: [{
                 association: 'categories',
@@ -92,30 +95,29 @@ module.exports = function(sequelize, DataTypes) {
 
     templates.prototype.assignCategories = async function (categories) {
         categories = typeof categories === 'string' ? JSON.parse(categories) : categories;
+        let originalCategories = [...(this.categories || []).map(cat => cat.id)];
 
-        for (const category of categories || []) {
+        for (const category of categories) {
+            if (originalCategories.indexOf(category.id) === -1) {
+                const cat = await sequelize.models.categories.findByPk(category.id);
+                if (!cat) return false;
 
-            const cat = await sequelize.models.categories.findByPk(category.id);
-            if (!cat) return false;
-
-            switch (category.action) {
-                case 'assign':
-                    await this.addCategory(cat, {through: {comment: (category.associationDetails || {}).comment}});
-                    break;
-                case 'delete':
-                    const association = await sequelize.models.templates_categories.findOne({
-                        where: {
-                            templateId: this.id,
-                            categoryId: cat.id
-                        }
-                    });
-
-                    if (!association) return false;
-
-                    await association.destroy();
-
-                    break;
+                await this.addCategory(cat, {through: {comment: (category.associationDetails || {}).comment}});
+            } else {
+                originalCategories.splice(originalCategories.indexOf(category.id), 1);
             }
+        }
+        for (const id of originalCategories) {
+            const association = await sequelize.models.templates_categories.findOne({
+                where: {
+                    templateId: this.id,
+                    categoryId: id
+                }
+            });
+
+            if (!association) return false;
+
+            await association.destroy();
         }
     }
 
