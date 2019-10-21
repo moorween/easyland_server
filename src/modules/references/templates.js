@@ -86,7 +86,7 @@ router.put('/:id', async (req, res) => {
         await template.assignCategories(req.body.categories);
         await template.update(req.body);
 
-        res.json({status: true, template: template.reload()});
+        res.json({status: true, template: await template.reload()});
     } catch (err) {
         res.status(500).json({error: err});
     }
