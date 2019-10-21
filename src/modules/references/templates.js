@@ -5,6 +5,7 @@ import extract from 'extract-zip';
 import templateWalkSync from '../../lib/walkSync';
 import path from 'path';
 import {getScreenshot} from "../../lib/templateProcessor";
+import slugify from "slugify";
 
 const router = express.Router();
 
@@ -33,6 +34,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
+
         const file = Object.values(req.files)[0];
         const dirName = path.parse(file.name).name;
         const templateDir = `${process.env.PWD}/templates/${dirName}`;
@@ -53,19 +55,19 @@ router.post('/', async (req, res) => {
 
         if (!fileList.length) throw 'no template files found';
 
+        const imageFile = `${slugify(dirName)}.png`;
+
+        getScreenshot(dirName, `${walkResult.correctionPath}/${walkResult.indexFile}`, imageFile).then(res => {
+        }).catch(() => {
+        });
+
         req.body.files = fileList;
         req.body.indexFile = walkResult.indexFile;
         req.body.templatePath = `${dirName}/${walkResult.correctionPath}`;
+        req.body.screenshot = imageFile;
 
         const template = await db.templates.create(req.body);
         await template.assignCategories(req.body.categories);
-
-        getScreenshot(dirName, `${walkResult.correctionPath}/${walkResult.indexFile}`).then(res => {
-            template.update({
-                screenshot: res
-            });
-        }).catch(() => {
-        });
 
         res.json({status: true, template: await db.templates.findByPk(template.id)});
     } catch (err) {
@@ -88,8 +90,8 @@ router.put('/:id', async (req, res) => {
             return false;
         }
 
-        await template.update(req.body);
         await template.assignCategories(req.body.categories);
+        await template.update(req.body);
 
         res.json({status: true, template: template.reload()});
     } catch (err) {

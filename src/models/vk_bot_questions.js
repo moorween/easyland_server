@@ -17,7 +17,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING(96),
             allowNull: false,
             validate: {
-                isIn: [['regular', 'noAnswer', 'required', 'variants', 'reference']],
+                isIn: [['regular', 'noAnswer', 'variants', 'reference']],
                 customValidator(value) {
                     switch (value) {
                         case 'variants':
@@ -34,6 +34,10 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
+        required: {
+            type: DataTypes.BOOLEAN(),
+            defaultValue: false,
+        },
         text: {
             type: DataTypes.STRING(255),
             allowNull: false
@@ -42,10 +46,16 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.TEXT,
             allowNull: true,
             get() {
-                return JSON.parse(this.getDataValue('variants') || '[]')
+                try {
+                    return JSON.parse(this.getDataValue('variants') || '[]')
+                } catch (err) {
+                    return [];
+                }
+
             },
             set(value) {
                 const variants = typeof value === 'object' ? JSON.stringify(value) : value;
+                console.log(value, variants);
                 this.setDataValue('variants', variants);
             }
         },

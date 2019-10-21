@@ -18,6 +18,7 @@ module.exports = {
             ignoreHTTPSErrors: true,
             args: [
                 '--no-sandbox',
+                '--disable-dev-shm-usage',
                 '--disable-setuid-sandbox',
                 '--disable-web-sockets',
                 '--disable-web-security',

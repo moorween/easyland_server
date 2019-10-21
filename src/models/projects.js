@@ -86,29 +86,29 @@ module.exports = function (sequelize, DataTypes) {
 
     projects.prototype.assignMembers = async function (members) {
         members = typeof members === 'string' ? JSON.parse(members) : members;
+        let originalMembers = [...(this.members || []).map(member => member.id)];
 
         for (const member of members) {
-            const user = await sequelize.models.users.findByPk(member.id);
-            if (!user) return false;
+            if (originalMembers.indexOf(member.id) === -1) {
+                const user = await sequelize.models.users.findByPk(member.id);
+                if (!user) return false;
 
-            switch (member.action) {
-                case 'assign':
-                    await this.addMember(user, {through: {role: (member.memberDetails || {}).role}});
-                    break;
-                case 'delete':
-                    const projectMember = await sequelize.models.projects_members.findOne({
-                        where: {
-                            projectId: this.id,
-                            userId: user.id
-                        }
-                    });
-
-                    if (!projectMember) return false;
-
-                    await projectMember.destroy();
-
-                    break;
+                await this.addMember(user, {through: {role: (member.memberDetails || {}).role}});
+            } else {
+                originalMembers.splice(originalMembers.indexOf(member.id), 1);
             }
+        }
+        for (const id of originalMembers) {
+            const projectMember = await sequelize.models.projects_members.findOne({
+                where: {
+                    projectId: this.id,
+                    userId: id
+                }
+            });
+
+            if (!projectMember) return false;
+
+            await projectMember.destroy();
         }
     }
 
