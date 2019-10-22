@@ -25,7 +25,7 @@ router.get('/trash', async (req, res) => {
     res.send(templates);
 });
 
-router.get('/file/:id/:fileName', async (req, res) => {
+router.get('/file/:id*', async (req, res) => {
     const template = await db.templates
         .findByPk(req.params.id);
 
@@ -34,7 +34,7 @@ router.get('/file/:id/:fileName', async (req, res) => {
         return false;
     }
 
-    const fileName = `${process.env.PWD}/templates/${template.templatePath}/${req.params.fileName}`;
+    const fileName = `${process.env.PWD}/templates/${template.templatePath}/${req.params[0]}`;
 
     if (!fs.existsSync(fileName)) {
         res.status(404).json({error: 'file not found'});
