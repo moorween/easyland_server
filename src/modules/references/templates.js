@@ -25,10 +25,35 @@ router.get('/trash', async (req, res) => {
     res.send(templates);
 });
 
+router.get('/file/:id/:fileName', async (req, res) => {
+    const template = await db.templates
+        .findByPk(req.params.id);
+
+    if (!template) {
+        res.status(404).json({error: 'template not found'});
+        return false;
+    }
+
+    const fileName = `${process.env.PWD}/templates/${template.templatePath}/${req.params.fileName}`;
+
+    if (!fs.existsSync(fileName)) {
+        res.status(404).json({error: 'file not found'});
+        return false;
+    }
+
+    const content = fs.readFileSync(fileName, 'utf8');
+
+    res.send({content: content.toString()});
+});
+
 router.get('/:id', async (req, res) => {
     const template = await db.templates
         .findByPk(req.params.id);
 
+    if (!template) {
+        res.status(404).json({error: 'template not found'});
+        return false;
+    }
     res.send(template);
 });
 
