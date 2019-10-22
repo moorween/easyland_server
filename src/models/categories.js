@@ -35,7 +35,7 @@ module.exports = function(sequelize, DataTypes) {
         tableName: 'categories',
         timestamps: true,
         defaultScope: {
-
+            attributes: {exclude: ['deletedAt', 'deletedBy']}
         },
         scopes: {
             active: {
