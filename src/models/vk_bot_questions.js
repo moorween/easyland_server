@@ -38,6 +38,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.BOOLEAN(),
             defaultValue: false,
         },
+        multiselect: {
+            type: DataTypes.BOOLEAN(),
+            defaultValue: false,
+        },
         text: {
             type: DataTypes.STRING(255),
             allowNull: false
@@ -115,12 +119,18 @@ module.exports = function (sequelize, DataTypes) {
         },
         hooks: {
             beforeSave: async (q, options) => {
+
+                const whereCondition = q.condition ? {
+                    condition: ''
+                } : {}
+
                 const qWithSameStep = await sequelize.models.vk_bot_questions.findOne({
                     where: {
                         step: q.step,
                         id: {
                             [Op.ne]: q.id
-                        }
+                        },
+                        ...whereCondition
                     }
                 });
 
@@ -136,7 +146,8 @@ module.exports = function (sequelize, DataTypes) {
                                 },
                                 id: {
                                     [Op.ne]: q.id
-                                }
+                                },
+                                ...whereCondition
                             }
                         }
                     )

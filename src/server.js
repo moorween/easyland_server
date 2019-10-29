@@ -9,6 +9,7 @@ import {jwtSecret} from './config'
 import auth from './modules/auth';
 import projects from './modules/projects';
 import clients from './modules/clients';
+import blocks from './modules/blocks';
 import botFlow from './modules/botFlow';
 import references from './modules/references';
 
@@ -27,6 +28,8 @@ router.use(jwt({secret: jwtSecret}).unless(jwtUnprotected));
 router.use('/auth', auth);
 router.use('/projects', projects);
 router.use('/clients', clients);
+router.use('/blocks', blocks);
+
 router.use('/bot-flow', botFlow);
 router.use('/references', references);
 
@@ -46,4 +49,4 @@ app.use((err, req, res, next) => {
     }
 });
 
-app.listen(8081);
+app.listen(8080);

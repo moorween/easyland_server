@@ -6,7 +6,11 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     const questions = await db.vk_bot_questions
         .scope('active')
-        .findAll();
+        .findAll({
+            order: [
+                ['step']
+            ]
+        });
     res.send(questions);
 });
 

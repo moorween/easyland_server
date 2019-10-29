@@ -21,4 +21,12 @@ module.exports = models => {
             foreignKey: 'templateId'
         }
     )
+
+    models.blocks.belongsToMany(models.categories,
+        {
+            as: 'categories',
+            through: models.blocks_categories,
+            foreignKey: 'blockId'
+        }
+    )
 }
