@@ -15,6 +15,15 @@ const requiredMessageText = 'Пожалуйста, дайте ответ на п
 const finishMessageText = 'Вопросов больше не имею.';
 const multiselectStopText = 'Хватит';
 
+const test = async () => {
+
+
+}
+
+test();
+
+
+
 const processEvent = async (ctx) => {
     const message = ctx.message.body;
     const [user] = await db.vk_bot_users.findOrCreate({
@@ -68,6 +77,10 @@ const processEvent = async (ctx) => {
     const nextQuestion = async () => {
         const flow = dialogFlow[user.vk_id];
 
+        const {step: lastStep} = await db.vk_bot_questions.findOne({
+            order: [['step', 'DESC']]
+        })
+
         const nextQuestions = await db.vk_bot_questions
             .scope('active')
             .findAll({
@@ -77,10 +90,17 @@ const processEvent = async (ctx) => {
             }).filter((question) => {
                 if (!question.condition) return true;
                 const [questionId, answer] = question.condition.split('=');
-                return ((flow.answers[questionId] || []).find(val => val.variantId === answer));
+                return ((flow.answers[questionId] || []).find(val => (val.variantId || val.text) === answer));
             })
 
         if (!nextQuestions.length) {
+
+            if (flow.step < lastStep) {
+                dialogFlow[user.vk_id].step += 1;
+                await nextQuestion();
+                return false;
+            }
+
             ctx.reply(finishMessageText);
 
             db.orders.create({
