@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const {mysql} = require('../config');
-
+console.log(mysql)
 const sequelize = new Sequelize(mysql.database, mysql.username, mysql.password, {
     host: mysql.host,
     port: mysql.port,

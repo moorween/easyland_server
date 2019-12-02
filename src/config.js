@@ -5,7 +5,7 @@ module.exports = {
         host: process.env.HOST || 'localhost',
         port: process.env.PORT || '23306',
         database: 'easy_land',
-        username: process.env.USERNAME || 'root',
+        username: 'root',
         password: process.env.PASSWORD || ''
     },
     vk: {
