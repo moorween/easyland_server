@@ -1,15 +1,16 @@
 import fs from 'fs';
 
 const templateWalkSync = (dir, hasIndex) => {
-    const files = fs.readdirSync(dir);
+
     let fileList = [];
     let indexFile = '';
     let correctionPath = '';
 
+    let files = fs.readdirSync(dir).sort((a, b) => (fs.statSync(`${dir}/${a}`).isDirectory() ? 1 : 0) - (fs.statSync(`${dir}/${b}`).isDirectory() ? 1 : 0));
+
     files.forEach((file) => {
         if (fs.statSync(dir + '/' + file).isDirectory()) {
             const walkResult = templateWalkSync(dir + '/' + file, hasIndex || (indexFile));
-
 
             if (walkResult.indexFile) {
                 indexFile = walkResult.indexFile;

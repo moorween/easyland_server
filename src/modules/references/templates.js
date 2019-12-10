@@ -6,6 +6,8 @@ import templateWalkSync from '../../lib/walkSync';
 import path from 'path';
 import {getScreenshot} from "../../lib/templateProcessor";
 import slugify from "slugify";
+import {exec, execSync} from 'child_process';
+import gitlog from 'gitlog';
 
 const router = express.Router();
 
@@ -46,6 +48,41 @@ router.get('/file/:id*', async (req, res) => {
     res.send({content: content.toString()});
 });
 
+router.put('/file/:id*', async (req, res) => {
+    const template = await db.templates
+        .findByPk(req.params.id);
+
+    if (!template) {
+        res.status(404).json({error: 'template not found'});
+        return false;
+    }
+
+    const templatePath = `${process.env.PWD}/templates/${template.templatePath}`;
+    const fileName = `${templatePath}/${req.params[0]}`;
+
+    const commitMessage = `${req.user.login} - ручонками кривыми чота ковырял`;
+
+    if (!fs.existsSync(fileName)) {
+        res.status(404).json({error: 'file not found'});
+        return false;
+    }
+
+    try {
+        fs.writeFileSync(fileName, req.body.content, 'utf8');
+
+        try {
+            exec(`git commit -a -m "${commitMessage}"`, {cwd: templatePath});
+        } catch (err) {
+            console.log(err);
+        }
+
+        res.send({status: true});
+    } catch (err) {
+        res.status(500).json({error: err});
+    }
+
+});
+
 router.get('/:id', async (req, res) => {
     const template = await db.templates
         .findByPk(req.params.id);
@@ -54,15 +91,32 @@ router.get('/:id', async (req, res) => {
         res.status(404).json({error: 'template not found'});
         return false;
     }
-    res.send(template);
+
+    const options =
+        {
+            repo: `templates/${template.templatePath}`,
+            fields:
+                [
+                    'hash',
+                    'subject',
+                    'authorDateRel'
+                ]
+        };
+
+    let commits = gitlog(options).map(commit => {
+        return commit.subject === 'Initial commit' ? {...commit, status: [], files: []} : commit;
+    });
+
+    res.send({...template.get(), commits});
 });
 
 router.post('/', async (req, res) => {
     try {
 
         const file = Object.values(req.files)[0];
-        const dirName = path.parse(file.name).name;
+        const dirName = slugify(path.parse(file.name).name);
         const templateDir = `${process.env.PWD}/templates/${dirName}`;
+
         fs.copyFileSync(file.path, `templates/${file.name}`);
 
         await new Promise((resolve, reject) => {
@@ -80,7 +134,7 @@ router.post('/', async (req, res) => {
 
         if (!fileList.length) throw 'no template files found';
 
-        const imageFile = `${slugify(dirName)}.png`;
+        const imageFile = `${dirName}.png`;
 
         getScreenshot(dirName, `${walkResult.correctionPath}/${walkResult.indexFile}`, imageFile).then(res => {
         }).catch(() => {
@@ -94,9 +148,44 @@ router.post('/', async (req, res) => {
         const template = await db.templates.create(req.body);
         await template.assignCategories(req.body.categories);
 
+        try {
+            exec(`git init; git add *; git commit -a -m "Initial commit"`, {
+                cwd: `templates/${template.templatePath}`
+            });
+        } catch (err) {
+            console.log(err);
+        }
+
         res.json({status: true, template: await db.templates.findByPk(template.id)});
     } catch (err) {
         console.error(err);
+        res.status(500).json({error: err});
+    }
+});
+
+router.get('/rewalk/:id', async (req, res) => {
+    try {
+        const template = await db.templates.findByPk(req.params.id);
+
+        if (!template) {
+            res.status(404).json({error: 'template not found'});
+            return false;
+        }
+
+        const templateDir = `${process.env.PWD}/templates/${template.name}`;
+        const walkResult = templateWalkSync(templateDir);
+
+        if (!walkResult.fileList.length) throw 'no template files found';
+
+        await template.update({
+            files: walkResult.fileList,
+            indexFile: walkResult.indexFile,
+            templatePath: `${template.name}/${walkResult.correctionPath}`
+        })
+
+        res.json({result: walkResult});
+    } catch (err) {
+        console.log(err);
         res.status(500).json({error: err});
     }
 });
