@@ -1,1 +1,1605 @@
-{"info":{"_postman_id":"bd455f25-44a1-418a-8329-1a7f9c2c4374","name":"easyland crm","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},"item":[{"name":"projects","item":[{"name":"list","_postman_id":"64ee9a3f-20de-4020-ad79-4ea7d2008316","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/projects","host":["{{url}}"],"path":["projects"]}},"response":[]},{"name":"get one","_postman_id":"d76463f9-7c43-423f-ac13-6f5c771b8327","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/projects/2","host":["{{url}}"],"path":["projects","2"]}},"response":[]},{"name":"post","_postman_id":"c28af911-80a1-42fa-96bc-7460dc08e27a","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"POST","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"status","value":"accepted","type":"text"},{"key":"members","value":"[{\"id\":  6, \"action\": \"assign\", \"memberDetails\": {\"role\": \"developer\"}}]","type":"text"},{"key":"clientId","value":"1","type":"text"},{"key":"title","value":"test111111","type":"text"}]},"url":{"raw":"{{url}}/projects/","host":["{{url}}"],"path":["projects",""]}},"response":[]},{"name":"delete","_postman_id":"aeaa24df-6105-49b4-b1bd-fddb9f3d3e39","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"DELETE","header":[],"url":{"raw":"{{url}}/projects/1","host":["{{url}}"],"path":["projects","1"]}},"response":[]},{"name":"update","_postman_id":"d17f7852-8680-4bba-aa8a-91933f78f6b6","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"members","value":"[{\"id\":  5, \"action\": \"assign\", \"memberDetails\": {\"role\": \"developer\"}}]","description":"[{\n   id: 5,\n   action: 'assign',\n   memberDetails: {\n       role: 'developer'\n   }\n },\n {\n    id: 4,\n    action: 'delete'\n}]\n","type":"text"},{"key":"","value":"10","type":"text","disabled":true}]},"url":{"raw":"{{url}}/projects/5","host":["{{url}}"],"path":["projects","5"]}},"response":[]},{"name":"trash","_postman_id":"e3d985e3-b1ba-402b-bcbc-92a7043d97e1","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/projects/trash","host":["{{url}}"],"path":["projects","trash"]}},"response":[]},{"name":"restore","_postman_id":"825ad1a5-2112-496b-a261-918f55d37100","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[],"url":{"raw":"{{url}}/projects/restore/2","host":["{{url}}"],"path":["projects","restore","2"]}},"response":[]}],"_postman_id":"0c67f4ea-c6f3-4e49-aeba-890559b27b94"},{"name":"clients","item":[{"name":"list","_postman_id":"baebe497-b2c0-41e2-881c-943ca26bc1b1","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/clients","host":["{{url}}"],"path":["clients"]}},"response":[]},{"name":"get one","_postman_id":"74ce6a23-ed29-4c23-8999-1f8d15376f76","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/clients/1","host":["{{url}}"],"path":["clients","1"]}},"response":[]},{"name":"post","_postman_id":"45bd4eb9-9e86-4417-ba45-2489c0499371","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"POST","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"name","value":"Elon Musk","type":"text"},{"key":"email","value":"e.musk@ngs.ru","type":"text"},{"key":"status","value":"new","type":"text"}]},"url":{"raw":"{{url}}/clients/","host":["{{url}}"],"path":["clients",""]}},"response":[]},{"name":"delete","_postman_id":"7f3d48fb-858d-4e63-813a-343690876fe0","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"DELETE","header":[],"url":{"raw":"{{url}}/clients/1","host":["{{url}}"],"path":["clients","1"]}},"response":[]},{"name":"update","_postman_id":"294796ec-c8eb-4c65-82cd-cb9be28d6805","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"","value":"","type":"text","disabled":true}]},"url":{"raw":"{{url}}/clients/2","host":["{{url}}"],"path":["clients","2"]}},"response":[]},{"name":"trash","_postman_id":"85df42aa-e5b0-4762-ace0-97425e428179","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/clients/trash","host":["{{url}}"],"path":["clients","trash"]}},"response":[]},{"name":"restore","_postman_id":"cfd9d4b6-4e4a-4fc4-bf22-ec2fc6771cf7","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/clients/restore/5","host":["{{url}}"],"path":["clients","restore","5"]}},"response":[]}],"_postman_id":"5422d27f-e6fd-42ad-92e4-cd3db927876e","event":[{"listen":"prerequest","script":{"id":"ebcbcbb2-c176-4a62-9c4e-a632ec0ce031","type":"text/javascript","exec":[""]}},{"listen":"test","script":{"id":"ec7e7513-12d6-4e4c-9ec6-2377bfc2fcfd","type":"text/javascript","exec":[""]}}]},{"name":"blocks","item":[{"name":"list","_postman_id":"047a12c8-1687-4f93-b798-4aab4ee065c3","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/blocks","host":["{{url}}"],"path":["blocks"]}},"response":[]},{"name":"get one","_postman_id":"28a7e5fb-6d0a-48e7-9dc9-810b7fc10dd1","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/blocks/1","host":["{{url}}"],"path":["blocks","1"]}},"response":[]},{"name":"post","_postman_id":"3e869d08-7540-4ce3-bb81-ce4a936a23fb","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"POST","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"title","value":"new block","type":"text"},{"key":"categories","value":"[{\"id\":  18}]","type":"text"}]},"url":{"raw":"{{url}}/blocks/","host":["{{url}}"],"path":["blocks",""]}},"response":[]},{"name":"delete","_postman_id":"552b813a-9fa7-441d-aa2b-eecd3fdf5814","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"DELETE","header":[],"url":{"raw":"{{url}}/blocks/1","host":["{{url}}"],"path":["blocks","1"]}},"response":[]},{"name":"update","_postman_id":"7cfe72a9-45e0-4a1a-8133-a86bfd482469","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"","value":"","type":"text","disabled":true}]},"url":{"raw":"{{url}}/clients/2","host":["{{url}}"],"path":["clients","2"]}},"response":[]},{"name":"trash","_postman_id":"b9ddf5d0-0f0d-4a44-91b6-8d93b5041291","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/blocks/trash","host":["{{url}}"],"path":["blocks","trash"]}},"response":[]},{"name":"restore","_postman_id":"a9cf6cb4-8d94-44db-ae41-7c15a68efe89","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/blocks/restore/5","host":["{{url}}"],"path":["blocks","restore","5"]}},"response":[]}],"_postman_id":"03619a45-bd15-4555-b7c5-479e6a456457","event":[{"listen":"prerequest","script":{"id":"ebcbcbb2-c176-4a62-9c4e-a632ec0ce031","type":"text/javascript","exec":[""]}},{"listen":"test","script":{"id":"ec7e7513-12d6-4e4c-9ec6-2377bfc2fcfd","type":"text/javascript","exec":[""]}}]},{"name":"auth","item":[{"name":"sign-in","_postman_id":"37543735-3327-455f-811f-bf1289c212b3","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"POST","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"password","value":"test","type":"text"},{"key":"login","value":"test","type":"text"}]},"url":{"raw":"{{url}}/auth/sign-in","host":["{{url}}"],"path":["auth","sign-in"]}},"response":[]},{"name":"sign-up","_postman_id":"abaefaf2-9c66-4bd9-a560-eaa002f01be4","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"POST","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"firstName","value":"Test","type":"text"},{"key":"lastName","value":"","type":"text"},{"key":"login","value":"test","type":"text"},{"key":"password","value":"test","type":"text"},{"key":"email","value":"a@b.com","type":"text"},{"key":"role","value":"admin","type":"text"}]},"url":{"raw":"{{url}}/auth/sign-up","host":["{{url}}"],"path":["auth","sign-up"]}},"response":[]},{"name":"get one","_postman_id":"8acc1381-6a94-46e4-841b-3e2edb1c63ff","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":""}},"response":[]},{"name":"update","_postman_id":"f07ad4ea-8fc6-4067-a76f-6b03264131f0","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"password","value":"test","type":"text"},{"key":"lastName","value":"Doe","type":"text"},{"key":"firstName","value":"John","type":"text"}]},"url":{"raw":"{{url}}/auth/6","host":["{{url}}"],"path":["auth","6"],"query":[{"key":"password","value":"test1","type":"text","disabled":true}]}},"response":[]},{"name":"list","_postman_id":"82570eaf-3142-492d-8d32-f5d289bd5d9d","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/auth/","host":["{{url}}"],"path":["auth",""]}},"response":[]}],"_postman_id":"179fd1cc-294d-444d-8341-502081a80a69"},{"name":"bot-flow","item":[{"name":"list","_postman_id":"0cffc8e6-2903-469d-afd8-0b6bca826d8a","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/bot-flow/","host":["{{url}}"],"path":["bot-flow",""]}},"response":[]},{"name":"post","_postman_id":"11e4227d-8849-4ff3-9ede-239194a963d4","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"POST","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"step","value":"4","type":"text"},{"key":"type","value":"regular","description":"['regular', 'noAnswer', 'required', 'variants', 'reference']","type":"text"},{"key":"text","value":"Test TEXT","type":"text"},{"key":"reference","value":"","description":"from reference list (ex.: categories)","type":"text"},{"key":"variants","value":"[{id: 0, variant: 'test'}]","description":"array of variants: [{id: 0, variant: 'test'}]","type":"text"},{"key":"sticker","value":"DANCING","type":"text"},{"key":"status","value":"typing","type":"text"},{"key":"condition","value":"4=1","description":"[question ID] = answer (variant ID, category ID or user typed text) (ex.: 4=2)\n\n","type":"text"},{"key":"delay","value":"1","description":"delay before next question","type":"text"}]},"url":{"raw":"{{url}}/bot-flow/","host":["{{url}}"],"path":["bot-flow",""]}},"response":[]},{"name":"update","_postman_id":"15dc9b5f-0e72-4fc4-a35d-27ea50c0792d","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[]},"url":{"raw":"{{url}}/bot-flow/2","host":["{{url}}"],"path":["bot-flow","2"]}},"response":[]},{"name":"delete","_postman_id":"789e7e5a-c03b-4fc1-b346-b985b15e451c","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"DELETE","header":[],"url":{"raw":"{{url}}/bot-flow/20","host":["{{url}}"],"path":["bot-flow","20"]}},"response":[]}],"_postman_id":"f8fe4e4f-9329-4d10-b86a-f08720c53d44"},{"name":"references","item":[{"name":"categories","item":[{"name":"list","_postman_id":"a76ea880-3f91-4385-8ab3-878cac92aa9c","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/references/categories/","host":["{{url}}"],"path":["references","categories",""]}},"response":[]},{"name":"post","_postman_id":"57e495da-2c1a-4151-8ffb-125758aa1576","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"POST","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"title","value":"Super Duper Web Development","type":"text"},{"key":"","value":"e.musk@ngs.ru","type":"text","disabled":true},{"key":"","value":"new","type":"text","disabled":true}]},"url":{"raw":"{{url}}/references/categories/","host":["{{url}}"],"path":["references","categories",""]}},"response":[]},{"name":"delete","_postman_id":"8bc5e4e3-d12e-4448-82f2-d764bf4bc6b4","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"DELETE","header":[],"url":{"raw":"{{url}}/references/categories/1","host":["{{url}}"],"path":["references","categories","1"]}},"response":[]},{"name":"update","_postman_id":"565442da-5009-4e1d-ab96-37c525ed78bb","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"title","value":"SuperDooopeeeer Web DEV","type":"text"}]},"url":{"raw":"{{url}}/references/categories/1","host":["{{url}}"],"path":["references","categories","1"]}},"response":[]},{"name":"trash","_postman_id":"26020fa1-c41e-4f51-bfbf-15bc0531f5e5","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/references/categories/trash","host":["{{url}}"],"path":["references","categories","trash"]}},"response":[]},{"name":"restore","_postman_id":"8a5f0228-956a-4028-9107-8de9799b8738","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[],"url":{"raw":"{{url}}/references/categories/restore/1","host":["{{url}}"],"path":["references","categories","restore","1"]}},"response":[]}],"_postman_id":"74c83160-f2e9-4576-ac37-aa3d07d759ac","event":[{"listen":"prerequest","script":{"id":"ebcbcbb2-c176-4a62-9c4e-a632ec0ce031","type":"text/javascript","exec":[""]}},{"listen":"test","script":{"id":"ec7e7513-12d6-4e4c-9ec6-2377bfc2fcfd","type":"text/javascript","exec":[""]}}],"_postman_isSubFolder":true},{"name":"templates","item":[{"name":"list","_postman_id":"16e78b84-0495-441b-a58d-32eeb7923780","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/references/templates/","host":["{{url}}"],"path":["references","templates",""]}},"response":[]},{"name":"get one","_postman_id":"9cd09abe-b081-48f1-b7b8-e3f97f1c91b9","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/references/templates/49","host":["{{url}}"],"path":["references","templates","49"]}},"response":[]},{"name":"rewalk","_postman_id":"3ac2fe75-c3c7-47fb-a12d-52e6abb6c922","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/references/templates/49","host":["{{url}}"],"path":["references","templates","49"]}},"response":[]},{"name":"post","_postman_id":"a055358c-fdb6-403b-9b7b-372b80af4a9b","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"POST","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-data","type":"text"}],"body":{"mode":"formdata","formdata":[{"key":"name","value":"Lumia","type":"text"},{"key":"file","type":"file","src":"/Users/moorween/Downloads/Lumia Free Website Template - Free-CSS.com.zip"},{"key":"categories","value":"[{\"id\":  9, \"action\": \"assign\", \"associationDetails\": {\"comment\": \"TEST\"}}]","type":"text"}]},"url":{"raw":"{{url}}/references/templates/","host":["{{url}}"],"path":["references","templates",""]}},"response":[]},{"name":"delete","_postman_id":"260bec8c-3918-42df-b4e4-2d8d1939a5d3","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"DELETE","header":[],"url":{"raw":"{{url}}/references/templates/1","host":["{{url}}"],"path":["references","templates","1"]}},"response":[]},{"name":"update","_postman_id":"738be3a3-ae5e-4b01-b899-e039ea0937dc","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"title","value":"SuperDooopeeeer Web DEV","type":"text"}]},"url":{"raw":"{{url}}/references/templates/1","host":["{{url}}"],"path":["references","templates","1"]}},"response":[]},{"name":"trash","_postman_id":"fbe958a6-c6a9-4a9f-857e-5ffe909c6e41","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/references/templates/trash","host":["{{url}}"],"path":["references","templates","trash"]}},"response":[]},{"name":"restore","_postman_id":"619fff75-3ec8-43da-9168-0560ae648c7d","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[],"url":{"raw":"{{url}}/references/templates/restore/1","host":["{{url}}"],"path":["references","templates","restore","1"]}},"response":[]},{"name":"get file","_postman_id":"1597a6df-6faa-4394-9f27-3d117bff0c77","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":""}},"response":[]}],"_postman_id":"19d1bf45-595c-46bd-b138-d86399baf0eb","event":[{"listen":"prerequest","script":{"id":"ebcbcbb2-c176-4a62-9c4e-a632ec0ce031","type":"text/javascript","exec":[""]}},{"listen":"test","script":{"id":"ec7e7513-12d6-4e4c-9ec6-2377bfc2fcfd","type":"text/javascript","exec":[""]}}],"_postman_isSubFolder":true},{"name":"templates Copy","item":[{"name":"list","_postman_id":"b7da3779-1418-4f97-b626-5b5824f4ed22","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/references/templates/","host":["{{url}}"],"path":["references","templates",""]}},"response":[]},{"name":"get one","_postman_id":"5b10857f-f4a6-4581-a7da-2545a9c95000","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/references/templates/49","host":["{{url}}"],"path":["references","templates","49"]}},"response":[]},{"name":"rewalk","_postman_id":"304e8e99-2d98-40b8-9c14-8b197da8ff95","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/references/templates/49","host":["{{url}}"],"path":["references","templates","49"]}},"response":[]},{"name":"post","_postman_id":"74169711-5c4f-4ea9-a718-dc417545bbb7","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"POST","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-data","type":"text"}],"body":{"mode":"formdata","formdata":[{"key":"name","value":"Lumia","type":"text"},{"key":"file","type":"file","src":"/Users/moorween/Downloads/Lumia Free Website Template - Free-CSS.com.zip"},{"key":"categories","value":"[{\"id\":  9, \"action\": \"assign\", \"associationDetails\": {\"comment\": \"TEST\"}}]","type":"text"}]},"url":{"raw":"{{url}}/references/templates/","host":["{{url}}"],"path":["references","templates",""]}},"response":[]},{"name":"delete","_postman_id":"d98617db-0800-4bf5-a73b-426fe0dbc4a2","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"DELETE","header":[],"url":{"raw":"{{url}}/references/templates/1","host":["{{url}}"],"path":["references","templates","1"]}},"response":[]},{"name":"update","_postman_id":"40b671b6-c32f-4128-9fcd-dfab19eb26c1","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[{"key":"Content-Type","name":"Content-Type","value":"application/x-www-form-urlencoded","type":"text"}],"body":{"mode":"urlencoded","urlencoded":[{"key":"title","value":"SuperDooopeeeer Web DEV","type":"text"}]},"url":{"raw":"{{url}}/references/templates/1","host":["{{url}}"],"path":["references","templates","1"]}},"response":[]},{"name":"trash","_postman_id":"2d0f6961-5c16-4749-b30d-e4e8597ae8a5","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/references/templates/trash","host":["{{url}}"],"path":["references","templates","trash"]}},"response":[]},{"name":"restore","_postman_id":"ec8ca97c-0fd7-4bf4-9f26-e8beea65b09e","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"PUT","header":[],"url":{"raw":"{{url}}/references/templates/restore/1","host":["{{url}}"],"path":["references","templates","restore","1"]}},"response":[]},{"name":"get file","_postman_id":"df118582-866c-4bcf-a350-72ac5eba0200","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":""}},"response":[]}],"_postman_id":"dce3a72c-4624-4307-b6bc-653991cfd41d","event":[{"listen":"prerequest","script":{"id":"ebcbcbb2-c176-4a62-9c4e-a632ec0ce031","type":"text/javascript","exec":[""]}},{"listen":"test","script":{"id":"ec7e7513-12d6-4e4c-9ec6-2377bfc2fcfd","type":"text/javascript","exec":[""]}}],"_postman_isSubFolder":true},{"name":"list","_postman_id":"0ce6f18f-4cfd-4952-9fe9-f56bef70f65f","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"method":"GET","header":[],"url":{"raw":"{{url}}/references/","host":["{{url}}"],"path":["references",""]}},"response":[]}],"_postman_id":"10ed231a-6893-4ab6-a83c-66123235581b"}],"auth":{"type":"bearer","bearer":[{"key":"token","value":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZmlyc3ROYW1lIjoiSm9obiIsImxhc3ROYW1lIjoiRG9lIiwibG9naW4iOiJ0ZXN0IiwicGFzc3dvcmQiOiIkMmEkMTAkaXN1TEJuMlQ1bHpPcjhtVDg2VEdQdVJsSE1NTXk5UTZhZmV5d3NaZ2toZDlVblBsOE9kZ3UiLCJlbWFpbCI6ImFAYi5jb20iLCJyb2xlIjoiYWRtaW4iLCJjcmVhdGVkQXQiOm51bGwsInVwZGF0ZWRBdCI6bnVsbCwiZGVsZXRlZEF0IjpudWxsLCJkZWxldGVkQnkiOm51bGwsImlhdCI6MTU3MTE5OTI1Mn0.wHRJhUNwRVP2b0cya79zX-Nm6RecIWbOp24mHjcMBqY","type":"string"}]},"event":[{"listen":"prerequest","script":{"id":"8bdc41a0-4530-49a8-a832-583f4fcafde1","type":"text/javascript","exec":[""]}},{"listen":"test","script":{"id":"be44d1eb-4889-48eb-bab7-a3afa527f8e0","type":"text/javascript","exec":[""]}}]}
+{
+	"info": {
+		"_postman_id": "034b31ba-47fc-47b1-a6b5-cdfee5042507",
+		"name": "easyland crm",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/projects",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/projects/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "status",
+									"value": "accepted",
+									"type": "text"
+								},
+								{
+									"key": "members",
+									"value": "[{\"id\":  6, \"action\": \"assign\", \"memberDetails\": {\"role\": \"developer\"}}]",
+									"type": "text"
+								},
+								{
+									"key": "clientId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "test111111",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/projects/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/projects/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "members",
+									"value": "[{\"id\":  5, \"action\": \"assign\", \"memberDetails\": {\"role\": \"developer\"}}]",
+									"description": "[{\n   id: 5,\n   action: 'assign',\n   memberDetails: {\n       role: 'developer'\n   }\n },\n {\n    id: 4,\n    action: 'delete'\n}]\n",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "10",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/projects/5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "trash",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/projects/trash",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects",
+								"trash"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restore",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/projects/restore/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"projects",
+								"restore",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "clients",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/clients",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/clients/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Elon Musk",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "e.musk@ngs.ru",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "new",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/clients/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clients",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/clients/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/clients/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clients",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "trash",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/clients/trash",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clients",
+								"trash"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restore",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/clients/restore/5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clients",
+								"restore",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ebcbcbb2-c176-4a62-9c4e-a632ec0ce031",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ec7e7513-12d6-4e4c-9ec6-2377bfc2fcfd",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "blocks",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/blocks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"blocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/blocks/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"blocks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "new block",
+									"type": "text"
+								},
+								{
+									"key": "categories",
+									"value": "[{\"id\":  18}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/blocks/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"blocks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/blocks/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"blocks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/clients/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clients",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "trash",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/blocks/trash",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"blocks",
+								"trash"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restore",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/blocks/restore/5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"blocks",
+								"restore",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ebcbcbb2-c176-4a62-9c4e-a632ec0ce031",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ec7e7513-12d6-4e4c-9ec6-2377bfc2fcfd",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "sign-in",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "login",
+									"value": "test",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/auth/sign-in",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"sign-in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign-up",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "firstName",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "login",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "a@b.com",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/auth/sign-up",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "Doe",
+									"type": "text"
+								},
+								{
+									"key": "firstName",
+									"value": "John",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/auth/6?",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"6"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "test1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/auth/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "bot-flow",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/bot-flow/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"bot-flow",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "step",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "regular",
+									"description": "['regular', 'noAnswer', 'required', 'variants', 'reference']",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "Test TEXT",
+									"type": "text"
+								},
+								{
+									"key": "reference",
+									"value": "",
+									"description": "from reference list (ex.: categories)",
+									"type": "text"
+								},
+								{
+									"key": "variants",
+									"value": "[{id: 0, variant: 'test'}]",
+									"description": "array of variants: [{id: 0, variant: 'test'}]",
+									"type": "text"
+								},
+								{
+									"key": "sticker",
+									"value": "DANCING",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "typing",
+									"type": "text"
+								},
+								{
+									"key": "condition",
+									"value": "4=1",
+									"description": "[question ID] = answer (variant ID, category ID or user typed text) (ex.: 4=2)\n\n",
+									"type": "text"
+								},
+								{
+									"key": "delay",
+									"value": "1",
+									"description": "delay before next question",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/bot-flow/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"bot-flow",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{url}}/bot-flow/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"bot-flow",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/bot-flow/20",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"bot-flow",
+								"20"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "references",
+			"item": [
+				{
+					"name": "categories",
+					"item": [
+						{
+							"name": "list",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/categories/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"categories",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "post",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "Super Duper Web Development",
+											"type": "text"
+										},
+										{
+											"key": "",
+											"value": "e.musk@ngs.ru",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "new",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/references/categories/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"categories",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/categories/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "SuperDooopeeeer Web DEV",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/references/categories/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "trash",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/categories/trash",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"categories",
+										"trash"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "restore",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/categories/restore/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"categories",
+										"restore",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ebcbcbb2-c176-4a62-9c4e-a632ec0ce031",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "ec7e7513-12d6-4e4c-9ec6-2377bfc2fcfd",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "templates",
+					"item": [
+						{
+							"name": "list",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/templates/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"templates",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get one",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/templates/49",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"templates",
+										"49"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "rewalk",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/templates/49",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"templates",
+										"49"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "post",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-data",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Lumia",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/Users/moorween/Downloads/Lumia Free Website Template - Free-CSS.com.zip"
+										},
+										{
+											"key": "categories",
+											"value": "[{\"id\":  9, \"action\": \"assign\", \"associationDetails\": {\"comment\": \"TEST\"}}]",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/references/templates/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"templates",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/templates/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"templates",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "SuperDooopeeeer Web DEV",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/references/templates/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"templates",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "trash",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/templates/trash",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"templates",
+										"trash"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "restore",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/templates/restore/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"templates",
+										"restore",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get file",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ebcbcbb2-c176-4a62-9c4e-a632ec0ce031",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "ec7e7513-12d6-4e4c-9ec6-2377bfc2fcfd",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "render",
+					"item": [
+						{
+							"name": "list",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/render/title",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"render",
+										"title"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "post",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-data",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "key",
+											"value": "[\"1\", \"2\"]",
+											"type": "text"
+										},
+										{
+											"key": "value",
+											"value": "[\"3\", \"42\"]",
+											"type": "text"
+										},
+										{
+											"key": "categories",
+											"value": "[{\"id\":  9, \"action\": \"assign\", \"associationDetails\": {\"comment\": \"TEST\"}}]",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/references/render/title",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"render",
+										"title"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/render/title/12",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"render",
+										"title",
+										"12"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "value",
+											"value": "[\"123267777\",\"345345\"]",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/references/render/title/13",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"render",
+										"title",
+										"13"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "trash",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/render/title/trash",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"render",
+										"title",
+										"trash"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "restore",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/references/render/title/restore/12",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"references",
+										"render",
+										"title",
+										"restore",
+										"12"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ebcbcbb2-c176-4a62-9c4e-a632ec0ce031",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "ec7e7513-12d6-4e4c-9ec6-2377bfc2fcfd",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/references/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"references",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZmlyc3ROYW1lIjoiSm9obiIsImxhc3ROYW1lIjoiRG9lIiwibG9naW4iOiJ0ZXN0IiwicGFzc3dvcmQiOiIkMmEkMTAkaXN1TEJuMlQ1bHpPcjhtVDg2VEdQdVJsSE1NTXk5UTZhZmV5d3NaZ2toZDlVblBsOE9kZ3UiLCJlbWFpbCI6ImFAYi5jb20iLCJyb2xlIjoiYWRtaW4iLCJjcmVhdGVkQXQiOm51bGwsInVwZGF0ZWRBdCI6bnVsbCwiZGVsZXRlZEF0IjpudWxsLCJkZWxldGVkQnkiOm51bGwsImlhdCI6MTU3MTE5OTI1Mn0.wHRJhUNwRVP2b0cya79zX-Nm6RecIWbOp24mHjcMBqY",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "8bdc41a0-4530-49a8-a832-583f4fcafde1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "be44d1eb-4889-48eb-bab7-a3afa527f8e0",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
