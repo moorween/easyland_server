@@ -16,10 +16,24 @@ module.exports = function(sequelize, DataTypes) {
         key: {
             type: DataTypes.JSON(),
             allowNull: false,
+            get() {
+                return JSON.parse(this.getDataValue('key') || '[]')
+            },
+            set(value) {
+                const val = JSON.parse(value);
+                this.setDataValue('key', val);
+            }
         },
         value: {
             type: DataTypes.JSON(),
-            allowNull: true
+            allowNull: true,
+            get() {
+                return JSON.parse(this.getDataValue('value') || '[]')
+            },
+            set(value) {
+                const val = JSON.parse(value);
+                this.setDataValue('value', val);
+            }
         },
         createdAt: {
             type: DataTypes.DATE,
