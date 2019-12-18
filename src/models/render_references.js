@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
                 return JSON.parse(this.getDataValue('key') || '[]')
             },
             set(value) {
-                const val = JSON.parse(value);
+                const val = typeof(value) === 'object' ? value : JSON.parse(value);
                 this.setDataValue('key', val);
             }
         },
@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
                 return JSON.parse(this.getDataValue('value') || '[]')
             },
             set(value) {
-                const val = JSON.parse(value);
+                const val = typeof(value) === 'object' ? value : JSON.parse(value);
                 this.setDataValue('value', val);
             }
         },

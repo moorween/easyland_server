@@ -8,7 +8,6 @@ router.all('/', async (req, res) => {
 })
 
 router.get('/:type', async (req, res) => {
-
     const refs = await db.render_references
         .scope('active')
         .findAll({

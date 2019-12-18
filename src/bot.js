@@ -15,15 +15,6 @@ const requiredMessageText = 'Пожалуйста, дайте ответ на п
 const finishMessageText = 'Вопросов больше не имею.';
 const multiselectStopText = 'Хватит';
 
-const test = async () => {
-
-
-}
-
-test();
-
-
-
 const processEvent = async (ctx) => {
     const message = ctx.message.body;
     const [user] = await db.vk_bot_users.findOrCreate({

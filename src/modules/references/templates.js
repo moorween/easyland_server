@@ -8,6 +8,7 @@ import {getScreenshot} from "../../lib/templateProcessor";
 import slugify from "slugify";
 import {exec, execSync} from 'child_process';
 import gitlog from 'gitlog';
+import {templatesPath} from '../../config';
 
 const router = express.Router();
 
@@ -36,7 +37,7 @@ router.get('/file/:id*', async (req, res) => {
         return false;
     }
 
-    const fileName = `${process.env.PWD}/templates/${template.templatePath}/${req.params[0]}`;
+    const fileName = `${templatesPath}/${template.templatePath}/${req.params[0]}`;
 
     if (!fs.existsSync(fileName)) {
         res.status(404).json({error: 'file not found'});
@@ -57,7 +58,7 @@ router.put('/file/:id*', async (req, res) => {
         return false;
     }
 
-    const templatePath = `${process.env.PWD}/templates/${template.templatePath}`;
+    const templatePath = `${templatesPath}/${template.templatePath}`;
     const fileName = `${templatePath}/${req.params[0]}`;
 
     const commitMessage = `${req.user.login} - ручонками кривыми чота ковырял`;
@@ -70,6 +71,14 @@ router.put('/file/:id*', async (req, res) => {
     try {
         fs.writeFileSync(fileName, req.body.content, 'utf8');
 
+        const files2render = template.files2render || [];
+        if (files2render.indexOf(req.params[0]) < 0) {
+            files2render.push(req.params[0]);
+            await template.update({
+                files2render
+            })
+        }
+
         try {
             exec(`git commit -a -m "${commitMessage}"`, {cwd: templatePath});
         } catch (err) {
@@ -78,6 +87,7 @@ router.put('/file/:id*', async (req, res) => {
 
         res.send({status: true});
     } catch (err) {
+        console.log(err);
         res.status(500).json({error: err});
     }
 
@@ -115,7 +125,7 @@ router.post('/', async (req, res) => {
 
         const file = Object.values(req.files)[0];
         const dirName = slugify(path.parse(file.name).name);
-        const templateDir = `${process.env.PWD}/templates/${dirName}`;
+        const templateDir = `${templatesPath}/${dirName}`;
 
         fs.copyFileSync(file.path, `templates/${file.name}`);
 
@@ -172,7 +182,7 @@ router.get('/rewalk/:id', async (req, res) => {
             return false;
         }
 
-        const templateDir = `${process.env.PWD}/templates/${template.name}`;
+        const templateDir = `${templatesPath}/${template.name}`;
         const walkResult = templateWalkSync(templateDir);
 
         if (!walkResult.fileList.length) throw 'no template files found';
@@ -204,12 +214,16 @@ router.put('/:id', async (req, res) => {
             return false;
         }
 
+        delete req.body.files;
+        delete req.body.files2render;
+
         await template.assignCategories(req.body.categories);
         await template.update(req.body);
 
         res.json({status: true, template: await template.reload()});
     } catch (err) {
         res.status(500).json({error: err});
+        console.log(err);
     }
 });
 

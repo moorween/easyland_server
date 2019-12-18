@@ -37,6 +37,13 @@ module.exports = function(sequelize, DataTypes) {
                 this.setDataValue('files', JSON.stringify(value))
             }
         },
+        files2render: {
+            type: DataTypes.JSON(),
+            allowNull: true,
+            get() {
+                return JSON.parse(this.getDataValue('files2render') || '[]')
+            }
+        },
         status: {
             type: DataTypes.CHAR(128),
             allowNull: true,
@@ -91,7 +98,7 @@ module.exports = function(sequelize, DataTypes) {
                 }
             },
             noFiles: {
-                attributes: {exclude: ['files', 'templatePath', 'indexFile']}
+                attributes: {exclude: ['files', 'files2render', 'templatePath', 'indexFile']}
             }
         }
     });
@@ -124,5 +131,17 @@ module.exports = function(sequelize, DataTypes) {
         }
     }
 
+
+    templates.random = async function () {
+        return await this.findOne({
+            where: {
+                status: 'ready',
+                files2render: {
+                    [Op.ne]: null
+                }
+            },
+            order: sequelize.random()
+        })
+    }
     return templates;
 };

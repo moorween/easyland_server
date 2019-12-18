@@ -4,15 +4,18 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "archiver": "^3.1.1",
     "await-delay": "^1.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
+    "ejs": "^3.0.1",
     "express": "^4.17.1",
     "express-form-data": "^2.0.10",
     "express-jwt": "^5.3.1",
     "extract-zip": "^1.6.7",
+    "fs-extra": "^8.1.0",
     "gitlog": "^3.1.2",
     "jsonwebtoken": "^8.5.1",
     "markov": "0.0.7",
@@ -38,17 +41,18 @@
     "typescript": "^3.6.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run prod",
     "server": "babel-node ./src/server.js",
     "bot": "babel-node ./src/bot.js",
+    "test": "babel-node ./src/test.js",
     "servert:prod": "node ./dist/",
     "dev:bot": "NODE_ENV=development npm-run-all bot",
     "dev": "NODE_ENV=development npm-run-all server",
     "clean": "rimraf dist",
     "build": "babel ./src --out-dir dist",
     "prod": "NODE_ENV=production npm-run-all clean build server:prod",
-    "watch": "nodemon"
+    "watch": "nodemon",
+    "dbTunnel": "./db_tunnel.sh"
   },
   "author": "",
   "license": "ISC"

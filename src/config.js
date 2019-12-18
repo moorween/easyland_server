@@ -28,5 +28,7 @@ module.exports = {
             devtools: false,
             headless: true
         };
-    }
+    },
+    templatesPath: `${process.env.PWD}/templates/`,
+    renderPath: `${process.env.PWD}/render/`
 }
