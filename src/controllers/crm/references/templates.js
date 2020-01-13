@@ -1,14 +1,14 @@
 import express from 'express';
-import {sequelize, db} from '../../lib/db';
+import {sequelize, db} from '../../../lib/db';
 import fs from 'fs';
 import extract from 'extract-zip';
-import templateWalkSync from '../../lib/walkSync';
+import templateWalkSync from '../../../lib/walkSync';
 import path from 'path';
-import {getScreenshot} from "../../lib/templateProcessor";
+import {getScreenshot} from "../../../lib/templateUtils";
 import slugify from "slugify";
 import {exec, execSync} from 'child_process';
 import gitlog from 'gitlog';
-import {templatesPath} from '../../config';
+import {templatesPath} from '../../../config';
 
 const router = express.Router();
 
@@ -146,7 +146,7 @@ router.post('/', async (req, res) => {
 
         const imageFile = `${dirName}.png`;
 
-        getScreenshot(dirName, `${walkResult.correctionPath}/${walkResult.indexFile}`, imageFile).then(res => {
+        getScreenshot(`${templateDir}/${walkResult.correctionPath}/${walkResult.indexFile}`, `${templatesPath}/screenshots/${imageFile}`).then(res => {
         }).catch(() => {
         });
 

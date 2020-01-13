@@ -30,5 +30,14 @@ module.exports = {
         };
     },
     templatesPath: `${process.env.PWD}/templates/`,
-    renderPath: `${process.env.PWD}/render/`
+    renderPath: `${process.env.PWD}/render/`,
+
+    OAuth: {
+        VK: {
+            clientID:     '7279929',
+            clientSecret: 'Ou322Ug11NGFCSBdqHa6',
+            callbackURL:  'http://krucorp.ru:8080/api/v1/auth/vkontakte/callback'
+            //https://oauth.vk.com/authorize?client_id=7279929&display=page&redirect_uri=http://krucorp.ru:8080/api/v1/auth/vkontakte/callback&scope=email&response_type=token&v=5.59
+        }
+    }
 }

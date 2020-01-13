@@ -5,6 +5,7 @@ import VkBot from 'node-vk-bot-api';
 import Markup from 'node-vk-bot-api/lib/markup';
 import config from './config';
 import {db} from './lib/db';
+import {createOrder} from "./services/orders";
 
 const app = express();
 const bot = new VkBot(config.vk)
@@ -94,10 +95,7 @@ const processEvent = async (ctx) => {
 
             ctx.reply(finishMessageText);
 
-            db.orders.create({
-                botUserId: user.id,
-                data: flow.answers
-            });
+            await createOrder(user, flow.answers);
 
             dialogFlow[user.vk_id] = null;
             return;

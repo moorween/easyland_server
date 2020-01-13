@@ -1,6 +1,6 @@
-import {jwtSecret} from '../config';
+import {jwtSecret} from '../../config';
 import express from 'express';
-import {db} from '../lib/db';
+import {db} from '../../lib/db';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();

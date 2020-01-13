@@ -1,5 +1,5 @@
 import express from 'express';
-import {sequelize, db} from '../lib/db';
+import {sequelize, db} from '../../lib/db';
 
 const router = express.Router();
 

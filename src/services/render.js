@@ -1,45 +1,72 @@
 import {templatesPath, renderPath} from '../config';
 import {db} from '../lib/db';
-import fse from 'fs-extra';
-import fs from 'fs';
-import archiver from 'archiver';
 import ejs from 'ejs';
+import fs from 'fs';
+import AdmZip from 'adm-zip';
+import {getScreenshot} from "../lib/templateUtils";
 
-export default async (order) => {
-    const template = await db.templates.random();
-    const files = template.files2render;
 
-    // await fse.copy(`${templatesPath}/${template.templatePath}`, `${renderPath}/${template.templatePath}`);
-
-    const output = fs.createWriteStream(`${renderPath}/example.zip`);
-    const archive = archiver('zip', {
-        zlib: { level: 3 } // Sets the compression level.
-    });
-
-    output.on('end', function() {
-        console.log('Data has been drained');
-    });
-
-    archive.on('entry', () => {
-        console.log('asfsfwerfgwre');
-    })
-
-    archive.pipe(output);
-    await archive.directory(`${templatesPath}/${template.templatePath}`, false);
-    console.log(1);
-
-    const renderData = (input) => {
-        return order.data[input].text;
+export default class {
+    constructor(order) {
+        this._order = order;
+        this._template = order.template;
     }
 
-    for (const file of files) {
-        const filePath = `${templatesPath}/${template.templatePath}/${file}`;
-        const renderedFile = await ejs.renderFile(filePath, {data: renderData, test: 'dfsdfsd'}, {async: true});
-
-        console.log(renderedFile);
-        archive.append(renderedFile, { name: file });
+    renderData(input) {
+        return (this._order.data[input] || {}).text;
     }
-    archive.finalize();
 
-    return;
+    async makeZip(outputName) {
+
+        const files = this._template.files2render;
+        const zip = new AdmZip();
+
+        try {
+            zip.addLocalFolder(`${templatesPath}/${this._template.templatePath}`, this._template.templatePath, (i) => {
+                switch (true) {
+                    case i[0] === '.':
+                    case i.indexOf('/.') > -1:
+                        return false;
+                    default:
+                        return true;
+                }
+            });
+
+            for (const file of files) {
+                const filePath = `${templatesPath}/${this._template.templatePath}/${file}`;
+                const renderedFile = await ejs.renderFile(filePath,
+                    {
+                        data: this.renderData.bind(this),
+                        test: 'test 111 ololo'
+                    },
+                    {async: true});
+                zip.updateFile(`${this._template.templatePath}${file}`.replace(/\/+/g, '/'), renderedFile);
+            }
+
+            zip.writeZip(`${renderPath}/${outputName}.zip`);
+
+            return true;
+        } catch (err) {
+            console.error(err);
+            return false;
+        }
+    }
+
+    async makeScreenshot(imageFile) {
+        const indexFile = `${templatesPath}/${this._template.templatePath}/${this._template.indexFile}`;
+        const tmpFile = `${templatesPath}/${this._template.templatePath}/tmp.${this._template.indexFile}`;
+
+        try {
+            fs.copyFileSync(indexFile, tmpFile);
+
+            const res = await getScreenshot(tmpFile, imageFile);
+
+            fs.unlinkSync(tmpFile);
+
+            return res;
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+    }
 }

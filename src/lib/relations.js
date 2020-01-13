@@ -1,4 +1,5 @@
 module.exports = models => {
+    models.orders.belongsTo(models.templates);
     models.projects.belongsTo(models.clients);
     models.projects.belongsToMany(models.users,
         {

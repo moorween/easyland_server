@@ -3,7 +3,7 @@
 const Op = require('sequelize').Op;
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('clients', {
+	return sequelize.define('orders', {
 		id: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
@@ -23,6 +23,10 @@ module.exports = function(sequelize, DataTypes) {
             set(value) {
                 this.setDataValue('data', JSON.stringify(value))
             }
+		},
+		templateId: {
+            type: DataTypes.INTEGER(11),
+            allowNull: false,
 		},
 		status: {
 			type: DataTypes.CHAR(128),
@@ -48,6 +52,15 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		tableName: 'orders',
 		timestamps: true,
+        defaultScope: {
+            attributes: {exclude: ['templateId']},
+            include: [
+                {
+                    association: 'template',
+                    attributes: {exclude: ['deletedAt', 'deletedBy']}
+                }
+            ]
+        },
         scopes: {
             active: {
                 where: {
