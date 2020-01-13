@@ -30,7 +30,6 @@ export default async () => {
             profileFields: ['email']
         },
         (accessToken, refreshToken, params, profile, done) => {
-            console.log(params, profile);
             db.users.findOrCreate({
                 where:
                     {
@@ -39,6 +38,8 @@ export default async () => {
                 defaults: {
                     login: profile.username,
                     password: '',
+                    lastName: profile.name.familyName,
+                    firstName: profile.name.givenName
                 },
                 raw: true
             })
