@@ -14,7 +14,8 @@ import {Strategy as VKontakteStrategy} from 'passport-vkontakte';
 import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
 import {db} from './lib/db';
-import auth from './controllers/public/auth';
+import auth from './controllers/common/auth';
+import oauth from './controllers/public/oauth';
 
 const app = express();
 const router = express.Router();
@@ -37,28 +38,27 @@ export default async () => {
                     },
                 defaults: {
                     login: profile.username,
-                    password: '',
+                    password: 'empty',
                     lastName: profile.name.familyName,
-                    firstName: profile.name.givenName
-                },
-                raw: true
+                    firstName: profile.name.givenName,
+                    role: 'user'
+                }
             })
-                .then(([user, created]) => {
-                    done(null, user);
+                .then(async ([user, created]) => {
+                    if (created) {
+                        user = await user.reload();
+                    }
+
+                    done(null, user.get({
+                        plain: true
+                    }));
                 })
                 .catch(done);
         }
     ));
 
     passport.serializeUser(function (user, done) {
-        done(null, user.id);
-    });
-
-    passport.deserializeUser(function (id, done) {
-        // User.findById(id)
-        //     .then(function (user) { done(null, user); })
-        //     .catch(done);
-        done(null, {name: 'name', id})
+        done(null, user);
     });
 
     app.use(cors());
@@ -69,12 +69,9 @@ export default async () => {
         autoClean: true
     }));
 
-    app.use(cookieParser());
-    app.use(expressSession({secret: 'wefwefwefwr2334twtvqaxergsetysb5', resave: true, saveUninitialized: true}));
-
     app.use(passport.initialize());
-    app.use(passport.session());
 
+    app.use('/oauth', oauth);
     app.use('/api/v1', router);
 
     app.use('/static/screenshots', express.static('templates/screenshots'));

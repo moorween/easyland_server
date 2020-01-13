@@ -6,7 +6,8 @@ import formData from 'express-form-data';
 import os from 'os';
 
 import {jwtSecret} from './config'
-import auth from './controllers/crm/auth';
+import auth from './controllers/common/auth';
+import users from './controllers/crm/users';
 import projects from './controllers/crm/projects';
 import clients from './controllers/crm/clients';
 import blocks from './controllers/crm/blocks';
@@ -21,6 +22,7 @@ const router = express.Router();
 export default async () => {
     router.use(jwt({secret: jwtSecret}).unless(jwtUnprotected));
     router.use('/auth', auth);
+    router.use('/users', users);
     router.use('/projects', projects);
     router.use('/clients', clients);
     router.use('/blocks', blocks);

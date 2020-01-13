@@ -1,6 +1,8 @@
 /* jshint indent: 1 */
 const bcrypt = require('bcryptjs');
 const Op = require('sequelize').Op;
+const hash = require('../lib/hash');
+const userCreated = require('../events/userCreated');
 
 module.exports = function(sequelize, DataTypes) {
 	const users = sequelize.define('users', {
@@ -40,6 +42,15 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.CHAR(128),
 			allowNull: true
 		},
+		status: {
+			type: DataTypes.CHAR(128),
+			allowNull: true,
+			defaultValue: 'activation_required'
+		},
+		confirmation: {
+			type: DataTypes.CHAR(255),
+			allowNull: true,
+		},
         createdAt: {
             type: DataTypes.DATE,
             allowNull: true
@@ -60,7 +71,7 @@ module.exports = function(sequelize, DataTypes) {
 		tableName: 'users',
 		timestamps: true,
 		defaultScope: {
-            attributes: { exclude: ['password', 'login', 'createdAt', 'updatedAt', 'deletedAt', 'deletedBy'] },
+            attributes: { exclude: ['password', 'login', 'confirmation', 'createdAt', 'updatedAt', 'deletedAt', 'deletedBy'] },
 		},
 		scopes: {
             active: {
@@ -77,10 +88,10 @@ module.exports = function(sequelize, DataTypes) {
                 }
             },
 			noPassword: {
-				attributes: { exclude: ['password', 'login'] },
+				attributes: { exclude: ['password', 'login', 'confirmation'] },
 			},
             withProjects: {
-                attributes: { exclude: ['password'] },
+                attributes: { exclude: ['password', 'confirmation'] },
                 include: [{
                     association: 'activeProjects',
                     through: {
@@ -89,6 +100,14 @@ module.exports = function(sequelize, DataTypes) {
                     }
                 }]
             }
+		},
+		hooks: {
+			beforeCreate: (instance, options) => {
+				instance.setDataValue('confirmation', hash());
+			},
+			afterCreate(instance, options) {
+				userCreated(instance);
+			}
 		}
 	});
 

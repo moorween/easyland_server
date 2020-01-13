@@ -9,13 +9,9 @@ const router = express.Router();
 router.get('/vkontakte/callback',
     passport.authenticate('vkontakte', { scope: ['email']}),
     (req, res) => {
-        res.send(req.user);
+        const token = jwt.sign(req.user, jwtSecret);
+        res.send({user: req.user, token});
     }
 );
-
-router.get('/', function(req, res) {
-    //Here you have an access to req.user
-    res.json(req.user);
-});
 
 export default router;

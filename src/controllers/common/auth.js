@@ -1,6 +1,6 @@
 import {jwtSecret} from '../../config';
 import express from 'express';
-import {db} from '../../lib/db';
+import {db, sequelize} from '../../lib/db';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
@@ -10,7 +10,10 @@ router.post('/sign-in', async (req, res) => {
         .scope(null)
         .findOne({
             where: {
-                login: req.body.login
+                login: req.body.login,
+                status: {
+                    [sequelize.Op.ne]: 'activation_required'
+                }
             }
         });
 
@@ -41,24 +44,6 @@ router.post('/sign-up', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
-    try {
-        const user = await db.users
-            .scope('withProjects', 'noPassword')
-            .findByPk(req.params.id);
-
-        if (!user) {
-            res.status(404).json({error: 'user not found'});
-            return false;
-        }
-
-        res.json(user);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({error: err});
-    }
-});
-
 router.put('/:id', async (req, res) => {
     try {
         const user = await db.users.findByPk(req.params.id);
@@ -80,10 +65,5 @@ router.put('/:id', async (req, res) => {
         res.status(500).json({error: err});
     }
 });
-
-router.get('/', async (req, res) => {
-    const users = await db.users.findAll();
-    res.json(users);
-})
 
 export default router;

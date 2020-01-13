@@ -31,13 +31,18 @@ module.exports = {
     },
     templatesPath: `${process.env.PWD}/templates/`,
     renderPath: `${process.env.PWD}/render/`,
-
+    email: {
+        mailgun: {
+            domain: 'betex.krucorp.org',
+            apiKey: '3702fbb898a3fc05bc446587be558c05-f45b080f-7afd47e8'
+        }
+    },
     OAuth: {
         VK: {
             clientID:     '7279929',
             clientSecret: 'Ou322Ug11NGFCSBdqHa6',
-            callbackURL:  'http://krucorp.ru:8080/api/v1/auth/vkontakte/callback'
-            //https://oauth.vk.com/authorize?client_id=7279929&display=page&redirect_uri=http://krucorp.ru:8080/api/v1/auth/vkontakte/callback&scope=email&response_type=token&v=5.59
+            callbackURL:  'http://krucorp.ru:8080/oauth/vkontakte/callback'
+            //https://oauth.vk.com/authorize?client_id=7279929&display=page&redirect_uri=http://krucorp.ru:8080/oauth/vkontakte/callback&scope=email&response_type=token&v=5.59
         }
     }
 }
