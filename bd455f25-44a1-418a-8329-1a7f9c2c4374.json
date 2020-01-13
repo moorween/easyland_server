@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "034b31ba-47fc-47b1-a6b5-cdfee5042507",
+		"_postman_id": "9b3fd564-53d7-44a6-bcb5-3e8d0459dd76",
 		"name": "easyland crm",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -690,17 +690,6 @@
 					"response": []
 				},
 				{
-					"name": "get one",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "update",
 					"request": {
 						"method": "PUT",
@@ -751,6 +740,30 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "get one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
 				},
 				{
 					"name": "list",
@@ -758,17 +771,39 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/auth/",
+							"raw": "{{url}}/users/",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"auth",
+								"users",
 								""
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6181e79d-a6ba-4e6e-a81b-48e911467d72",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b5132fd2-54f2-4627-a653-eed70e9087af",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			],
 			"protocolProfileBehavior": {}
