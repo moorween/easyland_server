@@ -19,7 +19,7 @@ router.post('/sign-in', async (req, res) => {
         return;
     }
 
-    const token = user.active ? jwt.sign(user, jwtSecret) : '';
+    const token = user.active ? jwt.sign(await user.get({plain: true}), jwtSecret) : '';
 
     res.send({user, token});
 });

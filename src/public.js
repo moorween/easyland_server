@@ -11,10 +11,9 @@ import {db} from './lib/db';
 import auth from './controllers/common/auth';
 import oauth from './controllers/public/oauth';
 
-const app = express();
 const router = express.Router();
 
-export default async () => {
+export default async (app) => {
     router.use(jwt({secret: jwtSecret}).unless(jwtUnprotected));
     router.use('/auth', auth);
 
