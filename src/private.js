@@ -1,12 +1,5 @@
 import express from 'express';
-import fs from "fs";
-import https from "https";
-import cors from 'cors';
 import jwt from 'express-jwt';
-import bodyParser from 'body-parser';
-import formData from 'express-form-data';
-import os from 'os';
-
 import {jwtSecret, ssl} from './config'
 import auth from './controllers/common/auth';
 import users from './controllers/crm/users';
@@ -35,34 +28,7 @@ export default async () => {
 
     app.use('/api/v1', router);
 
-    app.use(cors());
-    app.use(express.json());
-    app.use(bodyParser.urlencoded({extended: true}));
-    app.use(formData.parse({
-        uploadDir: os.tmpdir(),
-        autoClean: true
-    }));
-
-
-    app.use('/static/screenshots', express.static('templates/screenshots'));
-    app.use((err, req, res, next) => {
-        if (err.name === 'UnauthorizedError') {
-            res.status(401).json({ error: 'invalid token' })
-        }
-    });
-
-    if (fs.existsSync(ssl.cert) && fs.existsSync(ssl.key)) {
-        https.createServer(
-            {
-                key: fs.readFileSync(ssl.key),
-                cert: fs.readFileSync(ssl.cert),
-                passphrase: ssl.passphrase
-            },
-            app).listen(8008);
-        console.log('SSL enabled');
-    } else {
-        app.listen(8008);
-    }
+    return app;
 }
 
 
