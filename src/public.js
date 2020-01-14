@@ -1,18 +1,18 @@
 import express from 'express';
+import https from 'https';
+import fs from 'fs';
 import cors from 'cors';
 import jwt from 'express-jwt';
 import bodyParser from 'body-parser';
 import formData from 'express-form-data';
 import os from 'os';
 
-import {jwtSecret, OAuth} from './config'
+import {jwtSecret, OAuth, ssl} from './config'
 import {jwtUnprotected} from "./lib/jwtUtils";
 
 import passport from 'passport';
 import {Strategy as VKontakteStrategy} from 'passport-vkontakte';
 
-import cookieParser from 'cookie-parser';
-import expressSession from 'express-session';
 import {db} from './lib/db';
 import auth from './controllers/common/auth';
 import oauth from './controllers/public/oauth';
@@ -31,6 +31,7 @@ export default async () => {
             profileFields: ['email']
         },
         (accessToken, refreshToken, params, profile, done) => {
+
             db.users.findOrCreate({
                 where:
                     {
@@ -38,10 +39,9 @@ export default async () => {
                     },
                 defaults: {
                     login: profile.username,
-                    password: 'empty',
+                    password: OAuth.defaultPassword,
                     lastName: profile.name.familyName,
-                    firstName: profile.name.givenName,
-                    role: 'user'
+                    firstName: profile.name.givenName
                 }
             })
                 .then(async ([user, created]) => {
@@ -82,5 +82,16 @@ export default async () => {
         }
     });
 
-    app.listen(8080);
+    if (fs.existsSync(ssl.cert) && fs.existsSync(ssl.key)) {
+        https.createServer(
+            {
+                key: fs.readFileSync(ssl.key),
+                cert: fs.readFileSync(ssl.cert),
+                passphrase: ssl.passphrase
+            },
+            app).listen(8080);
+        console.log('SSL enabled');
+    } else {
+        app.listen(8080);
+    }
 }

@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const Op = require('sequelize').Op;
 const hash = require('../lib/hash');
 const userCreated = require('../events/userCreated');
+const {OAuth} = require('../config');
 
 module.exports = function(sequelize, DataTypes) {
 	const users = sequelize.define('users', {
@@ -29,6 +30,7 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.CHAR(255),
 			allowNull: false,
 			validate: {notNull: true, notEmpty: true},
+			secret: true,
 			set(password) {
 				this.setDataValue('password', bcrypt.hashSync(password, 10));
 			}
@@ -40,16 +42,21 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		role: {
 			type: DataTypes.CHAR(128),
-			allowNull: true
+			allowNull: true,
+			defaultValue: 'user',
+			protect: true
 		},
 		status: {
 			type: DataTypes.CHAR(128),
 			allowNull: true,
-			defaultValue: 'activation_required'
+			defaultValue: 'activation_required',
+			protect: true
 		},
 		confirmation: {
 			type: DataTypes.CHAR(255),
 			allowNull: true,
+			protect: true,
+			secret: true
 		},
         createdAt: {
             type: DataTypes.DATE,
@@ -66,7 +73,13 @@ module.exports = function(sequelize, DataTypes) {
         deletedBy: {
             type: DataTypes.INTEGER(11),
             allowNull: true
-        }
+        },
+		active: {
+            type: DataTypes.VIRTUAL,
+            get() {
+				return this.getDataValue('status') !== 'activation_required';
+            }
+		}
 	}, {
 		tableName: 'users',
 		timestamps: true,
@@ -112,6 +125,7 @@ module.exports = function(sequelize, DataTypes) {
 	});
 
 	users.prototype.validPassword = function (password) {
+		if (password === OAuth.defaultPassword) return false;
         return bcrypt.compareSync(password, this.password);
     }
 

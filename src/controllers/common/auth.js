@@ -10,10 +10,7 @@ router.post('/sign-in', async (req, res) => {
         .scope(null)
         .findOne({
             where: {
-                login: req.body.login,
-                status: {
-                    [sequelize.Op.ne]: 'activation_required'
-                }
+                login: req.body.login
             }
         });
 
@@ -22,26 +19,36 @@ router.post('/sign-in', async (req, res) => {
         return;
     }
 
-    user = user.get({plain: true});
-    const token = jwt.sign(user, jwtSecret);
+    const token = user.active ? jwt.sign(user, jwtSecret) : '';
 
-    delete user.password;
-    delete user.login;
     res.send({user, token});
 });
 
 router.post('/sign-up', async (req, res) => {
     try {
         let user = await db.users.create(req.body);
-        user = user.get({plain: true});
 
-        delete user.password;
-        delete user.login;
+        res.json(await user.reload());
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: err});
+    }
+});
+
+router.post('/confirm', async (req, res) => {
+    try {
+        let user = await db.users.findOne({
+            where: {
+                id: req.body.id,
+                confirmation: req.body.confirmation
+            }
+        })
 
         res.json(user);
     } catch (err) {
         res.status(500).json({error: err});
     }
+
 });
 
 router.put('/:id', async (req, res) => {
@@ -52,7 +59,6 @@ router.put('/:id', async (req, res) => {
             res.status(404).json({error: 'user not found'});
             return false;
         }
-
         if (user.id !== req.user.id) {
             res.status(401).json({error: 'user owner is wrong'});
             return false;

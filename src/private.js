@@ -1,11 +1,13 @@
 import express from 'express';
+import fs from "fs";
+import https from "https";
 import cors from 'cors';
 import jwt from 'express-jwt';
 import bodyParser from 'body-parser';
 import formData from 'express-form-data';
 import os from 'os';
 
-import {jwtSecret} from './config'
+import {jwtSecret, ssl} from './config'
 import auth from './controllers/common/auth';
 import users from './controllers/crm/users';
 import projects from './controllers/crm/projects';
@@ -15,6 +17,7 @@ import botFlow from './controllers/crm/botFlow';
 import references from './controllers/crm/references';
 
 import {jwtUnprotected} from "./lib/jwtUtils";
+
 
 const app = express();
 const router = express.Router();
@@ -30,6 +33,8 @@ export default async () => {
     router.use('/bot-flow', botFlow);
     router.use('/references', references);
 
+    app.use('/api/v1', router);
+
     app.use(cors());
     app.use(express.json());
     app.use(bodyParser.urlencoded({extended: true}));
@@ -38,7 +43,7 @@ export default async () => {
         autoClean: true
     }));
 
-    app.use('/api/v1', router);
+
     app.use('/static/screenshots', express.static('templates/screenshots'));
     app.use((err, req, res, next) => {
         if (err.name === 'UnauthorizedError') {
@@ -46,7 +51,18 @@ export default async () => {
         }
     });
 
-    app.listen(8008);
+    if (fs.existsSync(ssl.cert) && fs.existsSync(ssl.key)) {
+        https.createServer(
+            {
+                key: fs.readFileSync(ssl.key),
+                cert: fs.readFileSync(ssl.cert),
+                passphrase: ssl.passphrase
+            },
+            app).listen(8008);
+        console.log('SSL enabled');
+    } else {
+        app.listen(8008);
+    }
 }
 
 

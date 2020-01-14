@@ -12,8 +12,16 @@ const sequelize = new Sequelize(mysql.database, mysql.username, mysql.password, 
         idle: 10000
     },
     define: {
-        timestamps: false
+        // timestamps: false
     },
+    defaultHidden: [
+        'deletedAt',
+        'deletedBy'
+    ],
+    defaultProtected: [
+        'deletedAt',
+        'deletedBy'
+    ],
     operatorsAliases: {
         $in: Sequelize.Op.in,
         $like: Sequelize.Op.like

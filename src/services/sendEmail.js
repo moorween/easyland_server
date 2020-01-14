@@ -10,7 +10,7 @@ export default async (to, subject, template, data) => {
         const html = await ejs.renderFile(templatePath, data, {async: true});
         mg.messages().send(
             {
-                from: 'Excited User <me@samples.mailgun.org>',
+                from: 'EasyLand Crew <crew@easyland.site>',
                 to,
                 subject,
                 html

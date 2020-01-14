@@ -1,6 +1,11 @@
 require('dotenv').config({path: __dirname + '/.env'});
 
 module.exports = {
+    ssl: {
+        cert: '/etc/letsencrypt/live/easyland.site/fullchain.pem',
+        key: '/etc/letsencrypt/live/easyland.site/privkey.pem',
+        passphrase: ''
+    },
     mysql: {
         host: process.env.HOST || 'localhost',
         port: process.env.PORT || '23306',
@@ -33,16 +38,18 @@ module.exports = {
     renderPath: `${process.env.PWD}/render/`,
     email: {
         mailgun: {
-            domain: 'betex.krucorp.org',
-            apiKey: '3702fbb898a3fc05bc446587be558c05-f45b080f-7afd47e8'
+            domain: 'easyland.site',
+            apiKey: '3702fbb898a3fc05bc446587be558c05-f45b080f-7afd47e8',
+            host: 'api.eu.mailgun.net'
         }
     },
     OAuth: {
+        defaultPassword: '283yc4237yd4h2t374v72fb902jjgf8934jhg75g45',
         VK: {
             clientID:     '7279929',
             clientSecret: 'Ou322Ug11NGFCSBdqHa6',
-            callbackURL:  'http://krucorp.ru:8080/oauth/vkontakte/callback'
-            //https://oauth.vk.com/authorize?client_id=7279929&display=page&redirect_uri=http://krucorp.ru:8080/oauth/vkontakte/callback&scope=email&response_type=token&v=5.59
+            callbackURL:  'http://easyland.site:8080/oauth/vkontakte/callback'
+            //https://oauth.vk.com/authorize?client_id=7279929&display=page&redirect_uri=http://easyland.site:8080/oauth/vkontakte/callback&scope=email&response_type=token&v=5.59
         }
     }
 }
