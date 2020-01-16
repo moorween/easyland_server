@@ -11,8 +11,7 @@ import os from "os";
 import passport from "passport/lib/index";
 
 const app = express();
-app.use(express.json());
-app.use(bodyParser.urlencoded({extended: true}));
+
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -24,14 +23,14 @@ app.use(passport.initialize());
 
 app.use('/static/screenshots', express.static('templates/screenshots'));
 
-const runApp = port => app => {
+app.use((err, req, res, next) => {
+    console.log(err);
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).json({error: 'invalid token'})
+    }
+});
 
-    app.use((err, req, res, next) => {
-        console.log(err);
-        if (err.name === 'UnauthorizedError') {
-            res.status(401).json({error: 'invalid token'})
-        }
-    });
+const runApp = port => app => {
 
     if (fs.existsSync(ssl.cert) && fs.existsSync(ssl.key)) {
         https.createServer(

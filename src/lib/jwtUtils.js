@@ -1,6 +1,8 @@
 const jwtUnprotected = (req) => {
     const unprotectedRoutes = [
         '/auth/sign-in',
+        '/auth/sign-up',
+        '/auth/confirm',
         '/auth/vkontakte',
         '/auth/vkontakte/callback'
     ];

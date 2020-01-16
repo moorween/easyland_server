@@ -1,4 +1,7 @@
 /* jshint indent: 1 */
+import jwt from "jsonwebtoken";
+import {jwtSecret} from "../config";
+
 const bcrypt = require('bcryptjs');
 const Op = require('sequelize').Op;
 const hash = require('../lib/hash');
@@ -116,7 +119,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		hooks: {
 			beforeCreate: (instance, options) => {
-				instance.setDataValue('confirmation', hash());
+				instance.updateConfirmationCode();
 			},
 			afterCreate(instance, options) {
 				userCreated(instance);
@@ -128,6 +131,16 @@ module.exports = function(sequelize, DataTypes) {
 		if (password === OAuth.defaultPassword) return false;
         return bcrypt.compareSync(password, this.password);
     }
+
+	users.prototype.jwtToken = async function () {
+		return this.active ? jwt.sign(await this.get({plain: true}), jwtSecret) : null;
+	}
+
+	users.prototype.updateConfirmationCode = function () {
+		this.unprotect('confirmation');
+		this.setDataValue('confirmation', hash());
+		return true;
+	}
 
     return users;
 };

@@ -1,16 +1,20 @@
-import {jwtSecret} from '../../config';
 import express from 'express';
-import jwt from 'jsonwebtoken';
 import passport from "passport/lib/index";
 
 const router = express.Router();
 
 router.get('/vkontakte/callback',
-    passport.authenticate('vkontakte', { scope: ['email']}),
-    (req, res) => {
-        const token = req.user.active ? jwt.sign(req.user, jwtSecret) : '';
-        res.send({user: req.user, token});
-    }
+    (req, res, next) =>
+        passport.authenticate('vkontakte', {scope: ['email']}, async (err, user) => {
+            if (err) {
+                const resp = JSON.stringify({user: null, error: err.message});
+                return res.send(`<script>window.opener.postMessage('${resp}', "*");</script>`);
+            }
+
+            const resp = JSON.stringify({user, token: await user.jwtToken()});
+            res.send(`<script>window.opener.postMessage('${resp}', "*");</script>`);
+
+        })(req, res, next)
 );
 
 export default router;

@@ -48,7 +48,7 @@ module.exports = {
         VK: {
             clientID:     '7279929',
             clientSecret: 'Ou322Ug11NGFCSBdqHa6',
-            callbackURL:  'http://easyland.site:8080/oauth/vkontakte/callback'
+            callbackURL:  'https://easyland.site:8080/oauth/vkontakte/callback'
             //https://oauth.vk.com/authorize?client_id=7279929&display=page&redirect_uri=http://easyland.site:8080/oauth/vkontakte/callback&scope=email&response_type=token&v=5.59
         }
     }
