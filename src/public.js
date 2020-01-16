@@ -35,7 +35,8 @@ export default async () => {
                     login: profile.username,
                     password: OAuth.defaultPassword,
                     lastName: profile.name.familyName,
-                    firstName: profile.name.givenName
+                    firstName: profile.name.givenName,
+                    status: 'oauth_user'
                 }
             })
                 .then(async ([user, created]) => {

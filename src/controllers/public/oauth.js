@@ -9,7 +9,8 @@ router.get('/vkontakte/callback',
     passport.authenticate('vkontakte', { scope: ['email']}),
     (req, res) => {
         const token = req.user.active ? jwt.sign(req.user, jwtSecret) : '';
-        res.send({user: req.user, token});
+        const resp = JSON.stringify({user: req.user, token});
+        res.send(`<script>window.opener.postMessage('${resp}', "*");</script>`);
     }
 );
 
