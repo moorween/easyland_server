@@ -129,7 +129,7 @@ router.get('/guest-hash', async (req, res) => {
     let freeHash;
     do {
         freeHash = hash();
-    } while (await db.orders.findOne({where: {guestId: freeHash}}))
+    } while (await db.orders.scope(null).findOne({where: {guestId: freeHash}}))
 
     res.json({guestHash: freeHash});
 });
