@@ -1,7 +1,7 @@
 import express from 'express';
 import {db, sequelize} from '../../lib/db';
-import sendEmail from "../../services/sendEmail";
-
+import sendEmail from '../../services/sendEmail';
+import hash from '../../lib/hash';
 const router = express.Router();
 
 router.post('/sign-in', async (req, res) => {
@@ -17,6 +17,8 @@ router.post('/sign-in', async (req, res) => {
         res.status(401).json({error: 'wrong password'})
         return;
     }
+
+    await user.attachGuestOrders(req.body.guestHash);
 
     res.send({user, token: await user.jwtToken()});
 });
@@ -55,6 +57,9 @@ router.post('/password-restore', async (req, res) => {
                 res.status(401).json({error: 'confirmation code is wrong'});
             }
         } else {
+            user.updateConfirmationCode();
+            await user.save();
+
             await sendEmail(
                 user.email,
                 'Restore EasyLand account',
@@ -118,6 +123,15 @@ router.put('/:id', async (req, res) => {
     } catch (err) {
         res.status(500).json({error: err});
     }
+});
+
+router.get('/guest-hash', async (req, res) => {
+    let freeHash;
+    do {
+        freeHash = hash();
+    } while (await db.orders.findOne({where: {guestId: freeHash}}))
+
+    res.json({guestHash: freeHash});
 });
 
 export default router;

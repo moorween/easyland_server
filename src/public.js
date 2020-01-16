@@ -1,12 +1,9 @@
 import express from 'express';
 import jwt from 'express-jwt';
-
 import {jwtSecret, OAuth, ssl} from './config'
 import {jwtUnprotected} from "./lib/jwtUtils";
-
 import passport from 'passport';
 import {Strategy as VKontakteStrategy} from 'passport-vkontakte';
-
 import {db} from './lib/db';
 import auth from './controllers/common/auth';
 import oauth from './controllers/public/oauth';
@@ -24,7 +21,6 @@ export default async (app) => {
             profileFields: ['email']
         },
         (accessToken, refreshToken, params, profile, done) => {
-
             db.users.findOrCreate({
                 where:
                     {

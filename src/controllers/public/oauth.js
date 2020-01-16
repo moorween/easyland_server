@@ -10,6 +10,9 @@ router.get('/vkontakte/callback',
                 const resp = JSON.stringify({user: null, error: err.message});
                 return res.send(`<script>window.opener.postMessage('${resp}', "*");</script>`);
             }
+            if (user.active) {
+                await user.attachGuestOrders(req.query.state);
+            }
 
             const resp = JSON.stringify({user, token: await user.jwtToken()});
             res.send(`<script>window.opener.postMessage('${resp}', "*");</script>`);

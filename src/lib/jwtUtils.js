@@ -3,7 +3,7 @@ const jwtUnprotected = (req) => {
         '/auth/sign-in',
         '/auth/sign-up',
         '/auth/confirm',
-        '/auth/vkontakte',
+        '/auth/guest-hash',
         '/auth/vkontakte/callback'
     ];
 

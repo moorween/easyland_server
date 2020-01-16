@@ -10,6 +10,14 @@ module.exports = function(sequelize, DataTypes) {
 			primaryKey: true,
 			autoIncrement: true
 		},
+		userId: {
+			type: DataTypes.INTEGER(11),
+			allowNull: true,
+		},
+		guestId: {
+			type: DataTypes.CHAR(128),
+			allowNull: true
+		},
 		botUserId: {
 			type: DataTypes.CHAR(128),
 			allowNull: false

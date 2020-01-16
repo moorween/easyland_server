@@ -142,5 +142,21 @@ module.exports = function(sequelize, DataTypes) {
 		return true;
 	}
 
+	users.prototype.attachGuestOrders = async function (guestId) {
+		if (!guestId) return false;
+
+		return await sequelize.models.orders.update(
+			{
+				userId: this.id,
+				guestId: null
+			},
+			{
+				where: {
+					guestId: guestId
+				}
+			});
+
+	}
+
     return users;
 };
