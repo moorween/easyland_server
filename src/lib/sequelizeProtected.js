@@ -10,13 +10,15 @@ module.exports = (sequelize, model) => {
     }
 
     model.addHook('beforeCreate', (instance, options) => {
-        for (const field of protectedFields) {
+        if (options.unprotect === true) return false;
+        for (const field of protectedFields.filter(field => (options.unprotect || []).indexOf(field) < 0)) {
             instance.dataValues[field] = model.tableAttributes[field].defaultValue;
         }
     });
 
     model.addHook('beforeUpdate', (instance, options) => {
-        for (const field of protectedFields) {
+        if (options.unprotect === true) return false;
+        for (const field of protectedFields.filter(field => (options.unprotect || []).indexOf(field) < 0)) {
             instance.dataValues[field] = instance._previousDataValues[field];
         }
     });

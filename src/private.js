@@ -11,11 +11,9 @@ import references from './controllers/crm/references';
 
 import {jwtUnprotected} from "./lib/jwtUtils";
 
-
-const app = express();
 const router = express.Router();
 
-export default async () => {
+export default async (app) => {
     router.use(jwt({secret: jwtSecret}).unless(jwtUnprotected));
     router.use('/auth', auth);
     router.use('/users', users);
