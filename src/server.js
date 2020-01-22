@@ -23,14 +23,14 @@ app.use(passport.initialize());
 
 app.use('/static/screenshots', express.static('templates/screenshots'));
 
-app.use((err, req, res, next) => {
-    console.log(err);
-    if (err.name === 'UnauthorizedError') {
-        res.status(401).json({error: 'invalid token'})
-    }
-});
-
 const runApp = port => app => {
+
+    app.use((err, req, res, next) => {
+        console.log(err);
+        if (err.name === 'UnauthorizedError') {
+            res.status(401).json({error: 'invalid token'})
+        }
+    });
 
     if (fs.existsSync(ssl.cert) && fs.existsSync(ssl.key)) {
         https.createServer(

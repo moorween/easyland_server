@@ -4,9 +4,12 @@ module.exports = (sequelize, model) => {
     let hiddenFields = Object.keys(model.tableAttributes).filter(field => model.tableAttributes[field].secret);
     hiddenFields = [...hiddenFields, ...sequelize.options.defaultHidden];
 
-    const protect = () => {
+    let unprotected = false;
+
+    const protectAll = () => {
         protectedFields = Object.keys(model.tableAttributes).filter(field => model.tableAttributes[field].protect)
         protectedFields = [...protectedFields, ...(sequelize.options.defaultProtected || [])];
+        unprotected = false;
     }
 
     model.addHook('beforeCreate', (instance, options) => {
@@ -14,6 +17,7 @@ module.exports = (sequelize, model) => {
         for (const field of protectedFields.filter(field => (options.unprotect || []).indexOf(field) < 0)) {
             instance.dataValues[field] = model.tableAttributes[field].defaultValue;
         }
+        if (unprotected) protectAll();
     });
 
     model.addHook('beforeUpdate', (instance, options) => {
@@ -21,14 +25,24 @@ module.exports = (sequelize, model) => {
         for (const field of protectedFields.filter(field => (options.unprotect || []).indexOf(field) < 0)) {
             instance.dataValues[field] = instance._previousDataValues[field];
         }
+        if (unprotected) protectAll();
     });
 
-    model.prototype.unprotect = () => {
-        protectedFields = [];
+    model.prototype.unprotect = (fields = []) => {
+        if (fields.length > 0) {
+            protectedFields = protectedFields.filter(field => fields.indexOf(field) < 0);
+        } else {
+            protectedFields = [];
+        }
+        unprotected = true;
     }
 
-    model.prototype.protect = () => {
-        protect();
+    model.prototype.protect = (fields = []) => {
+        if (fields.length > 0) {
+            protectedFields = [...protectedFields, ...fields];
+        } else {
+            protectAll();
+        }
     }
 
     model.prototype.toJSON =  function ()  {
@@ -41,5 +55,5 @@ module.exports = (sequelize, model) => {
         return values;
     }
 
-    protect();
+    protectAll();
 }

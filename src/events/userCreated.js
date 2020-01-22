@@ -5,6 +5,6 @@ module.exports = async function (user) {
         user.email,
         'Welcome to Easy Land!',
         'new-user',
-        {code: user.confirmation}
+        {user}
     );
 }
